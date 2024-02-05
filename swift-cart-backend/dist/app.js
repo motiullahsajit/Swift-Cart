@@ -2,7 +2,7 @@ import express from "express";
 // Importing routes
 import userRoute from "./routes/user.js";
 import { connectDB } from "./utils/features.js";
-import { errorMiddleware } from "./middlewares/erro.js";
+import { errorMiddleware } from "./middlewares/error.js";
 const port = 4000;
 const app = express();
 app.use(express.json());
