@@ -2,57 +2,29 @@ import { TryCatch } from "../middlewares/error.js";
 import { Product } from "../models/product.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
-// export const newProduct = () =>
-//   TryCatch(
-//     async (
-//       req: Request<{}, {}, NewProductRequestBody>,
-//       res: Response,
-//       next: NextFunction
-//     ) => {
-//       const { name, price, stock, category } = req.body;
-//       const photo = req.file;
-//       console.log("info", name, price, stock, category, photo?.path);
-//       await Product.create({
-//         name,
-//         price,
-//         stock,
-//         category: category.toLowerCase(),
-//         photo: photo?.path,
-//       });
-//       return res.status(201).json({
-//         success: true,
-//         message: "Product created successfully",
-//       });
-//     }
-//   );
-export const newProduct = async (req, res, next) => {
-    try {
-        const { name, price, stock, category } = req.body;
-        const photo = req.file;
-        if (!photo)
-            return next(new ErrorHandler("Please add photo", 400));
-        if (!name || !price || !stock || !category) {
-            rm(photo.path, () => {
-                console.log("Photo deleted");
-            });
-            return next(new ErrorHandler("Please enter all Fields", 400));
-        }
-        await Product.create({
-            name,
-            price,
-            stock,
-            category: category.toLowerCase(),
-            photo: photo.path,
+export const newProduct = TryCatch(async (req, res, next) => {
+    const { name, price, stock, category } = req.body;
+    const photo = req.file;
+    if (!photo)
+        return next(new ErrorHandler("Please add Photo", 400));
+    if (!name || !price || !stock || !category) {
+        rm(photo.path, () => {
+            console.log("Deleted");
         });
-        return res.status(201).json({
-            success: true,
-            message: "Product created successfully",
-        });
+        return next(new ErrorHandler("Please enter All Fields", 400));
     }
-    catch (err) {
-        next(err);
-    }
-};
+    await Product.create({
+        name,
+        price,
+        stock,
+        category: category.toLowerCase(),
+        photo: photo.path,
+    });
+    return res.status(201).json({
+        success: true,
+        message: "Product Created Successfully",
+    });
+});
 export const getLatestProducts = TryCatch(async (req, res, next) => {
     const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
     return res.status(200).json({ success: true, products });
