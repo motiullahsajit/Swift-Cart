@@ -9,7 +9,7 @@ import { Product } from "../models/product.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 import { nodeCache } from "../app.js";
-import { InvalidateCache } from "../utils/features.js";
+import { invalidateCache } from "../utils/features.js";
 // import { faker } from "@faker-js/faker";
 
 //Revalidate on New, Update, Delete Product & on New Order
@@ -92,7 +92,7 @@ export const newProduct = TryCatch(
       photo: photo.path,
     });
 
-    await InvalidateCache({ product: true });
+    await invalidateCache({ product: true });
 
     return res.status(201).json({
       success: true,
@@ -123,7 +123,7 @@ export const updateProduct = TryCatch(async (req, res, next) => {
   if (category) product.category = category;
 
   await product.save();
-  await InvalidateCache({ product: true });
+  await invalidateCache({ product: true });
 
   return res.status(200).json({
     success: true,
@@ -139,7 +139,7 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
     console.log("Product Photo Deleted");
   });
   await Product.deleteOne();
-  await InvalidateCache({ product: true });
+  await invalidateCache({ product: true });
 
   return res
     .status(200)

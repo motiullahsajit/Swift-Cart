@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
-import { InvalidateCacheProps } from "../types/types.js";
+import { InvalidateCacheProps, OrderItemType } from "../types/types.js";
 import { Product } from "../models/product.js";
 import { nodeCache } from "../app.js";
 
-export const connectDB = () => {
+export const connectDB = (uri: string) => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017", {
+    .connect(uri, {
       dbName: "swift_cart",
     })
     .then((c) => console.log(`DB Connected to ${c.connection.host}`))
     .catch((e) => console.log("DB connection error: ", e));
 };
 
-export const InvalidateCache = async ({
+export const invalidateCache = async ({
   product,
   order,
   admin,
@@ -34,5 +34,15 @@ export const InvalidateCache = async ({
   if (order) {
   }
   if (admin) {
+  }
+};
+
+export const reduceStock = async (orderItems: OrderItemType[]) => {
+  for (let i = 0; i < orderItems.length; i++) {
+    const order = orderItems[i];
+    const product = await Product.findById(order.productId);
+    if (!product) throw new Error("Product not found");
+    product.stock -= order.quantity;
+    await product.save();
   }
 };
