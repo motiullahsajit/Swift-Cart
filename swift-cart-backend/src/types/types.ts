@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Document } from "mongoose";
 
 export interface NewUserRequestBody {
   name: string;
@@ -74,4 +75,8 @@ export interface NewOrderRequestBody {
   discount: number;
   total: number;
   orderItems: OrderItemType[];
+}
+
+export interface DocumentInterface extends Document {
+  createdAt: Date;
 }

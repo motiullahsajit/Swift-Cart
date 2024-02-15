@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
-import { InvalidateCacheProps, OrderItemType } from "../types/types.js";
+import {
+  DocumentInterface,
+  InvalidateCacheProps,
+  OrderItemType,
+} from "../types/types.js";
 import { Product } from "../models/product.js";
 import { nodeCache } from "../app.js";
 
@@ -59,7 +63,7 @@ export const reduceStock = async (orderItems: OrderItemType[]) => {
 
 export const calculatePercentage = (thisMonth: number, lastMonth: number) => {
   if (lastMonth === 0) return thisMonth * 100;
-  const percent = ((thisMonth - lastMonth) / lastMonth) * 100;
+  const percent = (thisMonth / lastMonth) * 100;
   return Number(percent.toFixed(0));
 };
 
@@ -85,4 +89,26 @@ export const getInventories = async ({
   });
 
   return categoriesArray;
+};
+
+export const getChartData = ({
+  length,
+  docArr,
+  today,
+}: {
+  length: number;
+  docArr: DocumentInterface[];
+  today: Date;
+}) => {
+  const data: number[] = new Array(length).fill(0);
+
+  docArr.forEach((i) => {
+    const creationDate = i.createdAt;
+    const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
+    if (monthDiff < length) {
+      data[length - monthDiff - 1] += 1;
+    }
+  });
+
+  return data;
 };

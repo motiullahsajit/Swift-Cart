@@ -3,13 +3,18 @@ import { TryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
 import { Product } from "../models/product.js";
 import { User } from "../models/user.js";
-import { calculatePercentage, getInventories } from "../utils/features.js";
+import {
+  calculatePercentage,
+  getChartData,
+  getInventories,
+} from "../utils/features.js";
 
 export const getDashboardStats = TryCatch(async (req, res, next) => {
   let stats = {};
 
-  if (nodeCache.has("admin-stats"))
-    stats = JSON.parse(nodeCache.get("admin-stats") as string);
+  const key = "admin-stats";
+
+  if (nodeCache.has(key)) stats = JSON.parse(nodeCache.get(key) as string);
   else {
     const today = new Date();
     const sixMonthsAgo = new Date();
@@ -148,7 +153,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     lastSixMonthOrders.forEach((order) => {
       const creationDate = order.createdAt;
-      const monthDiff = today.getMonth() - creationDate.getMonth();
+      const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
       if (monthDiff < 6) {
         orderMonthCounts[5 - monthDiff] += 1;
         orderMonthlyRevenue[5 - monthDiff] += order.total;
@@ -185,7 +190,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       latestTransactions: modifiedLatestTransaction,
     };
 
-    nodeCache.set("admin-stats", JSON.stringify(stats));
+    nodeCache.set(key, JSON.stringify(stats));
   }
 
   return res.status(200).json({
@@ -196,9 +201,10 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
 export const getPieCharts = TryCatch(async (req, res, next) => {
   let charts;
+  const key = "admin-pie-charts";
 
-  if (nodeCache.has("admin-pie-charts")) {
-    charts = JSON.parse(nodeCache.get("admin-pie-charts") as string);
+  if (nodeCache.has(key)) {
+    charts = JSON.parse(nodeCache.get(key) as string);
   } else {
     const allOrdersPromise = Order.find({}).select([
       "total",
@@ -298,11 +304,79 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       adminAndCustomers,
     };
 
-    nodeCache.set("admin-pie-chars", JSON.stringify(charts));
+    nodeCache.set(key, JSON.stringify(charts));
   }
   return res.status(200).json({ success: true, charts });
 });
 
-export const getBarCharts = TryCatch(async () => {});
+export const getBarCharts = TryCatch(async (req, res, next) => {
+  let charts;
+  const key = "admin-bar-charts";
+
+  if (nodeCache.has(key)) charts = JSON.parse(nodeCache.get(key) as string);
+  else {
+    const today = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+
+    const lastSixMonthProductsPromise = Product.find({
+      createdAt: {
+        $gte: sixMonthsAgo,
+        $lte: today,
+      },
+    }).select("createdAt");
+
+    const lastSixMonthUsersPromise = User.find({
+      createdAt: {
+        $gte: sixMonthsAgo,
+        $lte: today,
+      },
+    }).select("createdAt");
+
+    const lastTwelveMonthOrdersPromise = Order.find({
+      createdAt: {
+        $gte: twelveMonthsAgo,
+        $lte: today,
+      },
+    }).select("createdAt");
+
+    const [products, users, orders] = await Promise.all([
+      lastSixMonthProductsPromise,
+      lastSixMonthUsersPromise,
+      lastTwelveMonthOrdersPromise,
+    ]);
+
+    const productsCounts = getChartData({
+      length: 6,
+      today,
+      docArr: products,
+    });
+
+    const usersCounts = getChartData({
+      length: 6,
+      today,
+      docArr: users,
+    });
+
+    const ordersCounts = getChartData({
+      length: 12,
+      today,
+      docArr: orders,
+    });
+
+    charts = {
+      users: usersCounts,
+      products: productsCounts,
+      orders: ordersCounts,
+    };
+
+    nodeCache.set(key, JSON.stringify(charts));
+  }
+
+  return res.status(200).json({ success: true, charts });
+});
 
 export const getLineCharts = TryCatch(async () => {});
