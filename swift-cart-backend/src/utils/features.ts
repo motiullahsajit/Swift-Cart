@@ -16,7 +16,7 @@ export const connectDB = (uri: string) => {
     .catch((e) => console.log("DB connection error: ", e));
 };
 
-export const invalidateCache = async ({
+export const invalidateCache = ({
   product,
   order,
   admin,
@@ -48,6 +48,12 @@ export const invalidateCache = async ({
     nodeCache.del(ordersKeys);
   }
   if (admin) {
+    nodeCache.del([
+      "admin-stats",
+      "admin-pie-charts",
+      "admin-bar-charts",
+      "admin-line-charts",
+    ]);
   }
 };
 
@@ -95,10 +101,12 @@ export const getChartData = ({
   length,
   docArr,
   today,
+  property,
 }: {
   length: number;
   docArr: DocumentInterface[];
   today: Date;
+  property?: "discount" | "total";
 }) => {
   const data: number[] = new Array(length).fill(0);
 
@@ -106,7 +114,7 @@ export const getChartData = ({
     const creationDate = i.createdAt;
     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
     if (monthDiff < length) {
-      data[length - monthDiff - 1] += 1;
+      data[length - monthDiff - 1] += property ? i[property]! : 1;
     }
   });
 

@@ -79,4 +79,6 @@ export interface NewOrderRequestBody {
 
 export interface DocumentInterface extends Document {
   createdAt: Date;
+  discount?: number;
+  total?: number;
 }

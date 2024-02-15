@@ -10,6 +10,7 @@ import productRoute from "./routes/product.js";
 import orderRoute from "./routes/order.js";
 import paymentRoute from "./routes/payment.js";
 import dashboardRoute from "./routes/dashboard.js";
+import Stripe from "stripe";
 config({
     path: "./.env",
 });
@@ -19,6 +20,8 @@ app.use(morgan("dev"));
 const port = process.env.PORT || 4000;
 const mongoURI = process.env.MONGO_URI || "";
 connectDB(mongoURI);
+const stripeKey = process.env.STRIPE_KEY || "";
+export const stripe = new Stripe(stripeKey);
 export const nodeCache = new NodeCache();
 app.get("/", (req, res) => {
     res.send("API working with /api/v1/");
