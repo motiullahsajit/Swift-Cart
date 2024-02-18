@@ -10,6 +10,9 @@ export const errorMiddleware = (
 ) => {
   err.message ||= "Internal server error";
   err.statusCode ||= 500;
+
+  if (err.name === "CastError") err.message = "Invalid Id";
+
   return res.status(err.statusCode).json({
     success: false,
     message: err.message,
