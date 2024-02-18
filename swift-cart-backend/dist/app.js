@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import morgan from "morgan";
+import cors from "cors";
 // Importing routes
 import userRoute from "./routes/user.js";
 import productRoute from "./routes/product.js";
@@ -17,6 +18,7 @@ config({
 const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 const port = process.env.PORT || 4000;
 const mongoURI = process.env.MONGO_URI || "";
 connectDB(mongoURI);
