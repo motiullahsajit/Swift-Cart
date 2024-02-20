@@ -1,5 +1,13 @@
 import { User, Product } from "./types";
 
+export type CustomError = {
+  status: number;
+  data: {
+    message: string;
+    success: boolean;
+  };
+};
+
 export type MessageResponse = {
   success: boolean;
   message: string;
