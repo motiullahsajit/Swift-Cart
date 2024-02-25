@@ -99,6 +99,28 @@ $color3: rgb(0, 104, 136);
   }
 }
 
+.not-found {
+  height: 80vh;
+  @include flex(column);
+  > svg {
+    font-size: 5rem;
+  }
+}
+
+.checkout-container {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  > form {
+    @include flex(column, flex-start, stretch, 2rem);
+    > button {
+      @include btn(1rem, $color3, $color1);
+      width: 100%;
+      font-size: 1.1rem;
+    }
+  }
+}
+
 .admin-container {
   @include grid(1fr 4fr, 2rem);
   height: 100vh;
@@ -263,6 +285,19 @@ $color3: rgb(0, 104, 136);
   }
 }
 
+.skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  .skeleton-shape {
+    height: 30px;
+    width: 100%;
+    background-color: #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    animation: skeleton-loader 1.5s infinite;
+  }
+}
+
 @keyframes loading-animation {
   to {
     transform: rotateZ(360deg);
@@ -271,5 +306,17 @@ $color3: rgb(0, 104, 136);
 @keyframes up-and-down {
   to {
     transform: translate(-50%, -20%);
+  }
+}
+
+@keyframes skeleton-loader {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
   }
 }
