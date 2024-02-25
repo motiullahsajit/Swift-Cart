@@ -33,6 +33,11 @@ export type UserResponse = {
   user: User;
 };
 
+export type ProductResponse = {
+  success: boolean;
+  product: Product;
+};
+
 export type AllProductsResponse = {
   success: boolean;
   products: Product[];
@@ -75,11 +80,6 @@ export type BarResponse = {
 export type LineResponse = {
   success: boolean;
   charts: Line;
-};
-
-export type ProductResponse = {
-  success: boolean;
-  product: Product;
 };
 
 export type SearchProductsRequest = {

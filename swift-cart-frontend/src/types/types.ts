@@ -82,7 +82,7 @@ export type Stats = {
   latestTransactions: LatestTransaction[];
 };
 
-type OrderFullfillment = {
+type OrderFulfillment = {
   processing: number;
   shipped: number;
   delivered: number;
@@ -103,17 +103,17 @@ type UsersAgeGroup = {
 };
 
 export type Pie = {
-  orderFullfillment: OrderFullfillment;
+  orderFulfillment: OrderFulfillment;
   productCategories: Record<string, number>[];
-  stockAvailablity: {
+  stockAvailability: {
     inStock: number;
     outOfStock: number;
   };
   revenueDistribution: RevenueDistribution;
   usersAgeGroup: UsersAgeGroup;
-  adminCustomer: {
-    admin: number;
-    customer: number;
+  adminAndCustomers: {
+    admins: number;
+    customers: number;
   };
 };
 
@@ -122,6 +122,7 @@ export type Bar = {
   products: number[];
   orders: number[];
 };
+
 export type Line = {
   users: number[];
   products: number[];
