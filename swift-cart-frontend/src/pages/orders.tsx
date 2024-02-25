@@ -1,7 +1,13 @@
-import { ReactElement, useState } from "react";
-import TableHOC from "../components/admin/TableHOC";
-import { Column } from "react-table";
+import { ReactElement, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Column } from "react-table";
+import TableHOC from "../components/admin/TableHOC";
+import { Skeleton } from "../components/loader";
+import { useMyOrdersQuery } from "../redux/api/orderAPI";
+import { CustomError } from "../types/api-types";
+import { RootState } from "../redux/store";
 
 type DataType = {
   _id: string;
@@ -40,16 +46,40 @@ const column: Column<DataType>[] = [
 ];
 
 const Orders = () => {
-  const [rows] = useState<DataType[]>([
-    {
-      _id: "dfs12",
-      amount: 3423,
-      quantity: 534,
-      discount: 20,
-      status: <span className="red">Processing</span>,
-      action: <Link to={`/order/dfs12`}>View</Link>,
-    },
-  ]);
+  const { user } = useSelector((state: RootState) => state.userReducer);
+
+  const { isLoading, isError, error, data } = useMyOrdersQuery(user?._id!);
+
+  if (isError) toast.error((error as CustomError).data.message);
+
+  const [rows, setRows] = useState<DataType[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setRows(
+        data.orders.map((i) => ({
+          _id: i._id,
+          amount: i.total,
+          discount: i.discount,
+          quantity: i.orderItems.length,
+          status: (
+            <span
+              className={
+                i.status === "Processing"
+                  ? "red"
+                  : i.status === "Shipped"
+                  ? "green"
+                  : "purple"
+              }
+            >
+              {i.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+        }))
+      );
+    }
+  }, [data]);
 
   const Table = TableHOC<DataType>(
     column,
@@ -61,7 +91,7 @@ const Orders = () => {
   return (
     <div className="container">
       <h1>My Orders</h1>
-      {Table}
+      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
     </div>
   );
 };
