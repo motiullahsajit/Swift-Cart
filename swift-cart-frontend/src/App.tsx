@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
+import "./App.css";
 import Loader from "./components/loader";
 import Header from "./components/header";
 import { Toaster } from "react-hot-toast";
