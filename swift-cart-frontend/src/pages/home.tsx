@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home border-2 border-red-500">
+    <div className="home">
       <section></section>
       <h1>
         Latest Products
