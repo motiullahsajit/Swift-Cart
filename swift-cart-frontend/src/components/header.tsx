@@ -1,13 +1,12 @@
 import { useState } from "react";
 import {
   FaSearch,
-  FaShoppingBag,
   FaShoppingCart,
   FaSignInAlt,
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types/types";
 import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
@@ -19,6 +18,13 @@ interface PropsType {
 
 const Header = ({ user }: PropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    navigate(`/search?name=${searchTerm}`);
+  };
 
   const logoutHandler = async () => {
     try {
@@ -31,16 +37,21 @@ const Header = ({ user }: PropsType) => {
   };
 
   return (
-    <nav className="bg-[#003F62] flex justify-around items-center gap-3 h-[80px]">
-      <div className="flex items-center justify-center gap-3">
-        <Link to={"/"} className="text-3xl text-white cursor-pointer py-3 px-5">
+    <nav className="bg-[#003F62] flex justify-between px-20 items-center gap-3 h-[80px]">
+      <div className="flex items-center justify-center ">
+        <Link
+          to={"/"}
+          className="text-3xl text-white cursor-pointer py-3 px-5 mr-3"
+          onClick={() => setIsOpen(false)}
+        >
           Swift Cart
         </Link>
-        <form className="flex" action="">
+        <form onSubmit={searchHandler}>
           <input
             type="text"
             placeholder="Search"
             className="px-4 h-[46px] w-[500px] rounded-s-xl"
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <input
             type="submit"
@@ -67,8 +78,11 @@ const Header = ({ user }: PropsType) => {
 
         {user?._id ? (
           <>
-            <button onClick={() => setIsOpen(!isOpen)}>
-              <FaUser />
+            <button
+              className="flex items-center gap-2 text-white text-xl"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <FaUser /> {user.name}
             </button>
             <dialog open={isOpen}>
               <div>
