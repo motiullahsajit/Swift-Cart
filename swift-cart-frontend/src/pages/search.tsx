@@ -25,7 +25,7 @@ const Search = () => {
 
   const [sarch, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  const [maxPrice, setMaxPrice] = useState(10000000000);
+  const [maxPrice, setMaxPrice] = useState(500000);
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
 
@@ -36,7 +36,7 @@ const Search = () => {
     isError: productIsError,
     error: productError,
   } = useSearchProductsQuery({
-    search: query,
+    search: sarch,
     sort,
     page,
     category,
@@ -80,7 +80,7 @@ const Search = () => {
           <input
             type="range"
             min={100}
-            max={100000}
+            max={500000}
             value={maxPrice}
             onChange={(e) => setMaxPrice(Number(e.target.value))}
           />
