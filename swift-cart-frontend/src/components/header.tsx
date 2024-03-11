@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  FaHome,
   FaSearch,
   FaShoppingCart,
   FaSignInAlt,
@@ -12,6 +13,7 @@ import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import Breadcrumbs from "./Breadcrumbs";
+import { FaBoxArchive } from "react-icons/fa6";
 
 interface PropsType {
   user: User | null;
@@ -64,11 +66,12 @@ const Header = ({ user }: PropsType) => {
         </div>
         <div className="flex items-center justify-center gap-3">
           <Link
-            className="text-white"
+            className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg "
             onClick={() => setIsOpen(false)}
             to={"/"}
           >
-            HOME
+            <FaHome />
+            Home
           </Link>
           <Link onClick={() => setIsOpen(false)} to={"/search"}>
             <FaSearch />
@@ -90,21 +93,27 @@ const Header = ({ user }: PropsType) => {
               >
                 <FaUser /> {user.name}
               </button>
-              <dialog open={isOpen}>
-                <div>
+              <dialog className="relative text-[#1B5A7D] " open={isOpen}>
+                <div className="flex flex-col gap-1 p-3 absolute right-0 mt-4 w-48 bg-white rounded- shadow-lg z-10">
                   {user.role === "admin" && (
                     <Link
+                      className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                       onClick={() => setIsOpen(false)}
                       to="/admin/dashboard"
                     >
-                      Admin
+                      <FaUser /> Admin
                     </Link>
                   )}
-                  <Link onClick={() => setIsOpen(false)} to="/orders">
-                    Orders
+
+                  <Link
+                    className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                    onClick={() => setIsOpen(false)}
+                    to="/orders"
+                  >
+                    <FaBoxArchive /> Orders
                   </Link>
-                  <button>
-                    <FaSignOutAlt onClick={logoutHandler} />
+                  <button className="flex items-center gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg">
+                    <FaSignOutAlt onClick={logoutHandler} /> Sign Out
                   </button>
                 </div>
               </dialog>

@@ -11,6 +11,7 @@ import { userExits, userNotExits } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer-types";
 import ProtectedRoute from "./components/protected-route";
+import Footer from "./components/Footer";
 
 const Home = lazy(() => import("./pages/home"));
 const AllProducts = lazy(() => import("./pages/allProducts"));
@@ -123,6 +124,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      <Footer />
       <Toaster position="bottom-center" />
     </Router>
   );
