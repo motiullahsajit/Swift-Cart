@@ -23,28 +23,41 @@ const Home = () => {
   return (
     <div className="home">
       <section></section>
-      <h1>
+      <h1 className="pb-5">
         Latest Products
         <Link to="/search" className="findmore">
           More
         </Link>
       </h1>
       <main>
-        {isLoading ? (
-          <Skeleton width="80vw" />
-        ) : (
-          data?.products.map((i) => (
-            <ProductCard
-              key={i._id}
-              productId={i._id}
-              name={i.name}
-              price={i.price}
-              stock={i.stock}
-              photo={i.photo}
-              handler={addToCartHandler}
-            />
-          ))
-        )}
+        <section className="latest">
+          {isLoading ? (
+            <Skeleton width="80vw" />
+          ) : (
+            data?.products.map((i) => (
+              <ProductCard
+                key={i._id}
+                productId={i._id}
+                name={i.name}
+                price={i.price}
+                stock={i.stock}
+                photo={i.photo}
+                handler={addToCartHandler}
+              />
+            ))
+          )}
+        </section>
+        <section className="banner flex items-center justify-end px-20 h-[417px] my-10 w-[1320px] mx-auto">
+          <div className="text-center mx-10">
+            <h1 className="text-3xl my-5 text-white">Sale up to 50% off</h1>
+            <Link
+              to="/search"
+              className="py-4 px-7 inline-block bg-[#EDA415] text-white rounded-2xl"
+            >
+              Shop Now
+            </Link>
+          </div>
+        </section>
       </main>
     </div>
   );

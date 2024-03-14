@@ -21,7 +21,7 @@
     font-size: 1rem;
   }
 
-  > main {
+  .latest {
     width: 100%;
     flex: 1;
     display: flex;
@@ -29,6 +29,11 @@
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  .banner{
+    background-image: url('../assets/images/banner.png');
+    background-repeat: no-repeat;
   }
 }
 
