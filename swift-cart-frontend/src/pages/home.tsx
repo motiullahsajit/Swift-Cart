@@ -6,8 +6,6 @@ import ProductCard from "../components/product-card";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
 import { addToCart } from "../redux/reducer/cartReducer";
 import { CartItem } from "../types/types";
-import { FaCrown, FaShippingFast } from "react-icons/fa";
-import { IoShieldCheckmark } from "react-icons/io5";
 import PolicyInfo from "../components/Home/PolicyInfo";
 import Reviews from "../components/Home/Reviews";
 import Brands from "../components/Home/Brands";

@@ -1,5 +1,6 @@
 import { server } from "../redux/store";
 import { CartItem } from "../types/types";
+import { Link } from "react-router-dom";
 
 type ProductsProps = {
   productId: string;
@@ -38,9 +39,12 @@ const ProductCard = ({
         >
           Add to Cart
         </button>
-        <button className="h-[40px] w-[130px] border-2 border-[#003F62] block px-3 py-1 rounded-lg">
+        <Link
+          to={`/product/${productId}`}
+          className="h-[40px] w-[130px] border-2 border-[#003F62] block px-3 py-1 rounded-lg"
+        >
           Details
-        </button>
+        </Link>
       </div>
     </div>
   );
