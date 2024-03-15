@@ -41,7 +41,7 @@ const ProductCard = ({
         </button>
         <Link
           to={`/product/${productId}`}
-          className="h-[40px] w-[130px] border-2 border-[#003F62] block px-3 py-1 rounded-lg"
+          className="h-[40px] w-[130px] border-2 border-[#003F62] block px-3 py-1 rounded-lg text-center text-xl"
         >
           Details
         </Link>
