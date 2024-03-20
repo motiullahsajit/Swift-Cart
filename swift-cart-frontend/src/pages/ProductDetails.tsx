@@ -3,6 +3,10 @@ import { useProductDetailsQuery } from "../redux/api/productAPI";
 import { Skeleton } from "../components/loader";
 import { server } from "../redux/store";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { CartItem } from "../types/types";
+import toast from "react-hot-toast";
+import { addToCart } from "../redux/reducer/cartReducer";
 
 /**
  * Component that renders the product details page.
@@ -21,6 +25,14 @@ const ProductDetails = () => {
     price: 0,
   };
 
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (cartItem: CartItem) => {
+    if (cartItem.stock < 1) return toast.error("Out of stock");
+    dispatch(addToCart(cartItem));
+    toast.success("Product added to cart successfully");
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -33,7 +45,14 @@ const ProductDetails = () => {
               <div className="w-[500px] px-5 pt-20">
                 <h1 className="text-4xl mb-3">{name}</h1>
                 <h2 className="text-2xl mb-3">Tk {price}</h2>
-                <p className="mb-3">Category: {category}</p>
+                <h2 className="flex items-center mb-3 gap-3">
+                  Rating:
+                  <FaStar className="text-yellow-500" />
+                  <FaStar className="text-yellow-500" />
+                  <FaStar className="text-yellow-500" />
+                  <FaStar className="text-yellow-500" />
+                  <FaStarHalfAlt className="text-yellow-500" />
+                </h2>
                 <p className="mb-3">
                   Availablity:{" "}
                   {stock ? (
@@ -46,14 +65,22 @@ const ProductDetails = () => {
                   Hurry up only {stock} product left in stock
                 </p>
                 <hr className="mb-4" />
-                <h2 className="flex items-center gap-3">
-                  Rating:
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStarHalfAlt className="text-yellow-500" />
-                </h2>
+                <p className="mb-3">Category: {category}</p>
+                <button
+                  className="h-[40px] w-[125px] bg-[#EDA415] block text-white px-3 py-1 rounded-lg"
+                  onClick={() =>
+                    addToCartHandler({
+                      productId: _id,
+                      photo,
+                      name,
+                      price,
+                      stock,
+                      quantity: 1,
+                    })
+                  }
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           </section>

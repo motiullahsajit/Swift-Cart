@@ -3,7 +3,7 @@ import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#E2F4FF] text-[#1B5A7D] p-6">
+    <footer className="bg-[#E2F4FF] text-[#1B5A7D] p-6 mt-16">
       <div className="flex items-center bg-white justify-around w-[1320px] h-[140px] rounded-2xl mx-auto mb-5">
         <h1 className="text-3xl font-bold">Subscribe newsletter</h1>
         <form className="relative w-[380px] flex items-center">
@@ -11,7 +11,7 @@ const Footer = () => {
             type="email"
             name="email-address"
             placeholder="Email address"
-            className="w-full h-[60px] px-3 text-xl placeholder-white text-white rounded-2xl bg-[#EDA415]"
+            className="w-full h-[60px] px-5 text-xl placeholder-white text-white rounded-2xl bg-[#EDA415]"
             id=""
           />
           <button
