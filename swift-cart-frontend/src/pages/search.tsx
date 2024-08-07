@@ -10,6 +10,7 @@ import { Skeleton } from "../components/loader";
 import { useDispatch } from "react-redux";
 import { CartItem } from "../types/types";
 import { addToCart } from "../redux/reducer/cartReducer";
+import { useLocation } from "react-router-dom";
 
 const Search = () => {
   const {
@@ -19,19 +20,23 @@ const Search = () => {
     error,
   } = useCategoriesQuery("");
 
-  const [search, setSearch] = useState("");
+  const { search } = useLocation();
+  const query = new URLSearchParams(search).get("name");
+
+  const [sarch, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  const [maxPrice, setMaxPrice] = useState(10000000000);
+  const [maxPrice, setMaxPrice] = useState(500000);
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
 
+  /* Query needs to be fixed */
   const {
     data: searchData,
     isLoading: productsLoading,
     isError: productIsError,
     error: productError,
   } = useSearchProductsQuery({
-    search,
+    search: sarch,
     sort,
     page,
     category,
@@ -75,7 +80,7 @@ const Search = () => {
           <input
             type="range"
             min={100}
-            max={100000}
+            max={500000}
             value={maxPrice}
             onChange={(e) => setMaxPrice(Number(e.target.value))}
           />
@@ -102,7 +107,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="Search by name..."
-          value={search}
+          value={sarch}
           onChange={(e) => setSearch(e.target.value)}
         />
         {productsLoading ? (

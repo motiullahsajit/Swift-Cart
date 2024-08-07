@@ -1,6 +1,6 @@
-import { FaPlus } from "react-icons/fa";
 import { server } from "../redux/store";
 import { CartItem } from "../types/types";
+import { Link } from "react-router-dom";
 
 type ProductsProps = {
   productId: string;
@@ -23,8 +23,9 @@ const ProductCard = ({
       <img src={`${server}/${photo}`} alt={name} />
       <p>{name}</p>
       <span>${price}</span>
-      <div>
+      <div className="flex w-full justify-around">
         <button
+          className="h-[40px] w-[125px] bg-[#003F62] block text-gray-200 px-3 py-1 rounded-lg"
           onClick={() =>
             handler({
               productId,
@@ -36,8 +37,14 @@ const ProductCard = ({
             })
           }
         >
-          <FaPlus />
+          Add to Cart
         </button>
+        <Link
+          to={`/product/${productId}`}
+          className="h-[40px] w-[130px] border-2 border-[#003F62] block px-3 py-1 rounded-lg text-center text-xl"
+        >
+          Details
+        </Link>
       </div>
     </div>
   );
