@@ -12,7 +12,7 @@ import { User } from "../types/types";
 import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import Breadcrumbs from "./Breadcrumbs";
+// import Breadcrumbs from "./Breadcrumbs";
 import { FaBoxArchive } from "react-icons/fa6";
 
 interface PropsType {
@@ -24,10 +24,10 @@ const Header = ({ user }: PropsType) => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    navigate(`/search?name=${searchTerm}`);
-  };
+  // const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   navigate(`/search?name=${searchTerm}`);
+  // };
 
   const logoutHandler = async () => {
     try {
@@ -50,7 +50,7 @@ const Header = ({ user }: PropsType) => {
           >
             Swift Cart
           </Link>
-          <form onSubmit={searchHandler}>
+          {/* <form onSubmit={searchHandler}>
             <input
               type="text"
               placeholder="Search"
@@ -62,7 +62,7 @@ const Header = ({ user }: PropsType) => {
               value="Search"
               className="h-[46px] w-[132px] px-3 cursor-pointer rounded-e-xl bg-[#EDA415]"
             />
-          </form>
+          </form>  */}
         </div>
         <div className="flex items-center justify-center gap-3">
           <Link
@@ -71,9 +71,12 @@ const Header = ({ user }: PropsType) => {
             to={"/"}
           >
             <FaHome />
-            Home
           </Link>
-          <Link onClick={() => setIsOpen(false)} to={"/search"}>
+          <Link
+            onClick={() => setIsOpen(false)}
+            to={"/search"}
+            className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
+          >
             <FaSearch />
           </Link>
           <Link
@@ -82,7 +85,6 @@ const Header = ({ user }: PropsType) => {
             to={"/cart"}
           >
             <FaShoppingCart />
-            Cart
           </Link>
 
           {user?._id ? (
@@ -91,17 +93,24 @@ const Header = ({ user }: PropsType) => {
                 className="flex items-center gap-2 text-white text-xl"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <FaUser /> {user.name}
+                <FaUser />
               </button>
               <dialog className="relative text-[#1B5A7D] " open={isOpen}>
                 <div className="flex flex-col gap-1 p-3 absolute right-0 mt-4 w-48 bg-white rounded- shadow-lg z-10">
+                  <Link
+                    className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                    onClick={() => setIsOpen(false)}
+                    to="/"
+                  >
+                    {user.name}
+                  </Link>
                   {user.role === "admin" && (
                     <Link
                       className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                       onClick={() => setIsOpen(false)}
                       to="/admin/dashboard"
                     >
-                      <FaUser /> Admin
+                      <FaUser /> Dashboard
                     </Link>
                   )}
 
@@ -128,7 +137,7 @@ const Header = ({ user }: PropsType) => {
           )}
         </div>
       </nav>
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
     </>
   );
 };
