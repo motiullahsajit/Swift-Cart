@@ -71,12 +71,12 @@ export const newProduct = TryCatch(
     res: Response,
     next: NextFunction
   ) => {
-    const { name, price, stock, category } = req.body;
+    const { name, price, stock, category, description } = req.body;
     const photo = req.file;
 
     if (!photo) return next(new ErrorHandler("Please add Photo", 400));
 
-    if (!name || !price || !stock || !category) {
+    if (!name || !price || !stock || !category || !description) {
       rm(photo.path, () => {
         console.log("Deleted");
       });
@@ -89,6 +89,7 @@ export const newProduct = TryCatch(
       price,
       stock,
       category: category.toLowerCase(),
+      description, // Add description to the product creation
       photo: photo.path,
     });
 

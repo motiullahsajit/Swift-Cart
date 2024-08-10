@@ -15,6 +15,7 @@ const NewProduct = () => {
   const [category, setCategory] = useState<string>("");
   const [price, setPrice] = useState<number>(1000);
   const [stock, setStock] = useState<number>(1);
+  const [description, setDescription] = useState<string>(""); // New state for description
   const [photoPrev, setPhotoPrev] = useState<string>("");
   const [photo, setPhoto] = useState<File>();
 
@@ -38,7 +39,8 @@ const NewProduct = () => {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name || !price || stock < 0 || !category || !photo) return;
+    if (!name || !price || stock < 0 || !category || !photo || !description)
+      return;
 
     const formData = new FormData();
 
@@ -47,6 +49,7 @@ const NewProduct = () => {
     formData.set("stock", stock.toString());
     formData.set("photo", photo);
     formData.set("category", category);
+    formData.set("description", description); // Add description to formData
 
     const res = await newProduct({ id: user?._id!, formData });
 
@@ -90,7 +93,6 @@ const NewProduct = () => {
                 onChange={(e) => setStock(Number(e.target.value))}
               />
             </div>
-
             <div>
               <label>Category</label>
               <input
@@ -101,7 +103,15 @@ const NewProduct = () => {
                 onChange={(e) => setCategory(e.target.value)}
               />
             </div>
-
+            <div>
+              <label>Description</label> {/* Add description input */}
+              <textarea
+                required
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
             <div>
               <label>Photo</label>
               <input required type="file" onChange={changeImageHandler} />

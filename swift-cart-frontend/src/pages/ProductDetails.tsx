@@ -12,18 +12,20 @@ import { addToCart } from "../redux/reducer/cartReducer";
  * Component that renders the product details page.
  */
 const ProductDetails = () => {
-  const id = useParams().id;
-
+  const { id } = useParams();
   const { data, isLoading } = useProductDetailsQuery(id!);
 
-  const { _id, price, photo, name, stock, category } = data?.product || {
-    _id: "",
-    name: "",
-    photo: "",
-    category: "",
-    stock: 0,
-    price: 0,
-  };
+  // Extract product details including the description
+  const { _id, price, photo, name, stock, category, description } =
+    data?.product || {
+      _id: "",
+      name: "",
+      photo: "",
+      category: "",
+      stock: 0,
+      price: 0,
+      description: "", // Initialize description
+    };
 
   const dispatch = useDispatch();
 
@@ -41,7 +43,12 @@ const ProductDetails = () => {
         <>
           <section className="w-[1320px] mx-auto">
             <div className="flex justify-around ">
-              <img src={`${server}/${photo}`} width={500} height={500} alt="" />
+              <img
+                src={`${server}/${photo}`}
+                width={500}
+                height={500}
+                alt={name}
+              />
               <div className="w-[500px] px-5 pt-20">
                 <h1 className="text-4xl mb-3">{name}</h1>
                 <h2 className="text-2xl mb-3">Tk {price}</h2>
@@ -62,10 +69,13 @@ const ProductDetails = () => {
                   )}
                 </p>
                 <p className="text-sm mb-4">
-                  Hurry up only {stock} product left in stock
+                  Hurry up only {stock} product{stock > 1 ? "s" : ""} left in
+                  stock
                 </p>
                 <hr className="mb-4" />
                 <p className="mb-3">Category: {category}</p>
+                <p className="mb-3">Description: {description}</p>{" "}
+                {/* Display the description */}
                 <button
                   className="h-[40px] w-[125px] bg-[#EDA415] block text-white px-3 py-1 rounded-lg"
                   onClick={() =>

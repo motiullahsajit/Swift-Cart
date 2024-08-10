@@ -14,6 +14,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 // import Breadcrumbs from "./Breadcrumbs";
 import { FaBoxArchive } from "react-icons/fa6";
+import { useCategoriesQuery } from "../redux/api/productAPI";
 
 interface PropsType {
   user: User | null;
@@ -21,9 +22,11 @@ interface PropsType {
 
 const Header = ({ user }: PropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenCategories, setIsOpenCategories] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  const { data: categories, isLoading } = useCategoriesQuery("");
   // const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
   //   navigate(`/search?name=${searchTerm}`);
@@ -86,7 +89,31 @@ const Header = ({ user }: PropsType) => {
           >
             <FaShoppingCart />
           </Link>
-
+          <Link
+            className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
+            to={"/products"}
+            onMouseEnter={() => setIsOpenCategories(true)}
+            onMouseLeave={() => setIsOpenCategories(false)}
+          >
+            Products
+            {isOpenCategories && !isLoading && (
+              <dialog
+                className="relative text-[#1B5A7D] "
+                open={isOpenCategories}
+              >
+                <div className="flex flex-col gap-1 p-3 absolute right-0 mt-4 w-48 bg-white rounded- shadow-lg z-10">
+                  {categories?.categories.map((category) => (
+                    <Link
+                      className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                      to={`/category/${category}`}
+                    >
+                      {category}
+                    </Link>
+                  ))}
+                </div>
+              </dialog>
+            )}
+          </Link>
           {user?._id ? (
             <>
               <button

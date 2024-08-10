@@ -10,7 +10,7 @@ import {
 
 const Brands = () => {
   return (
-    <div className="w-[1320px] h-[130px] flex justify-evenly items-center mx-auto bg-[#E2F4FF] rounded-2xl">
+    <div className="w-[1320px] h-[130px] flex justify-evenly items-center mx-auto bg-[#E2F4FF] rounded-2xl mt-16">
       <SiSamsung className="text-[60px]" />
       <SiSony className="text-[60px]" />
       <FaApple className="text-[50px]" />

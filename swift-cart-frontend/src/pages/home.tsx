@@ -7,7 +7,7 @@ import { useLatestProductsQuery } from "../redux/api/productAPI";
 import { addToCart } from "../redux/reducer/cartReducer";
 import { CartItem } from "../types/types";
 import PolicyInfo from "../components/Home/PolicyInfo";
-import Reviews from "../components/Home/Reviews";
+// import Reviews from "../components/Home/Reviews";
 import Brands from "../components/Home/Brands";
 
 const Home = () => {
@@ -62,7 +62,7 @@ const Home = () => {
           </div>
         </section>
         <PolicyInfo />
-        <Reviews />
+        {/* <Reviews /> */}
         <Brands />
       </main>
     </div>

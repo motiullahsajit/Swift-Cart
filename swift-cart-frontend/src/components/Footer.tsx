@@ -3,8 +3,8 @@ import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#E2F4FF] text-[#1B5A7D] p-6 mt-16">
-      <div className="flex items-center bg-white justify-around w-[1320px] h-[140px] rounded-2xl mx-auto mb-5">
+    <footer className="bg-[#1B5A7D] text-[#E2F4FF] p-6 pt-16 mt-16">
+      {/* <div className="flex items-center bg-white justify-around w-[1320px] h-[140px] rounded-2xl mx-auto mb-5">
         <h1 className="text-3xl font-bold">Subscribe newsletter</h1>
         <form className="relative w-[380px] flex items-center">
           <input
@@ -25,7 +25,8 @@ const Footer = () => {
           <FaPhoneAlt className="text-[#EDA415]" />
           <p>Call us at: 0123456789</p>
         </div>
-      </div>
+      </div> */}
+
       <div className="w-[1320px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-6">
           <div>
@@ -38,16 +39,24 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-2">Find product</h3>
             <ul>
               <li>
-                <p>Laptop</p>
+                <a href="#" className="text-gray-400">
+                  Laptop
+                </a>
               </li>
               <li>
-                <a href="#">Smart phones</a>
+                <a href="#" className="text-gray-400">
+                  Smart phones
+                </a>
               </li>
               <li>
-                <a href="#">Smart Watch</a>
+                <a href="#" className="text-gray-400">
+                  Smart Watch
+                </a>
               </li>
               <li>
-                <a href="#">Camera</a>
+                <a href="#" className="text-gray-400">
+                  Camera
+                </a>
               </li>
             </ul>
           </div>
@@ -55,19 +64,29 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-2">Support</h3>
             <ul>
               <li>
-                <a href="#">FAQs</a>
+                <a href="#" className="text-gray-400">
+                  FAQs
+                </a>
               </li>
               <li>
-                <a href="#">Contact Us</a>
+                <a href="#" className="text-gray-400">
+                  Contact Us
+                </a>
               </li>
               <li>
-                <a href="#">Shipping Information</a>
+                <a href="#" className="text-gray-400">
+                  Shipping Information
+                </a>
               </li>
               <li>
-                <a href="#">Return Policy</a>
+                <a href="#" className="text-gray-400">
+                  Return Policy
+                </a>
               </li>
               <li>
-                <a href="#">Privacy Policy</a>
+                <a href="#" className="text-gray-400">
+                  Privacy Policy
+                </a>
               </li>
             </ul>
           </div>
@@ -75,13 +94,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
             <ul>
               <li>
-                <a href="#">Facebook</a>
+                <a href="#" className="text-gray-400">
+                  Facebook
+                </a>
               </li>
               <li>
-                <a href="#">Twitter</a>
+                <a href="#" className="text-gray-400">
+                  Twitter
+                </a>
               </li>
               <li>
-                <a href="#">Instagram</a>
+                <a href="#" className="text-gray-400">
+                  Instagram
+                </a>
               </li>
             </ul>
           </div>
