@@ -3,31 +3,30 @@ import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1B5A7D] text-[#E2F4FF] p-6 pt-16 mt-16">
-      {/* <div className="flex items-center bg-white justify-around w-[1320px] h-[140px] rounded-2xl mx-auto mb-5">
-        <h1 className="text-3xl font-bold">Subscribe newsletter</h1>
-        <form className="relative w-[380px] flex items-center">
-          <input
-            type="email"
-            name="email-address"
-            placeholder="Email address"
-            className="w-full h-[60px] px-5 text-xl placeholder-white text-white rounded-2xl bg-[#EDA415]"
-            id=""
-          />
-          <button
-            className="absolute right-3 text-3xl text-white"
-            type="submit"
-          >
-            <FaArrowRight />
-          </button>
-        </form>
-        <div className="flex items-center gap-3 text-xl">
-          <FaPhoneAlt className="text-[#EDA415]" />
-          <p>Call us at: 0123456789</p>
+    <footer className="bg-[#1B5A7D]">
+      <div className="px-20  pt-16 text-[#E2F4FF]">
+        <div className="flex items-center text-[#1B5A7D] bg-[#E2F4FF] justify-around h-[140px] rounded-lg mb-10">
+          <h1 className="text-3xl font-bold">Subscribe newsletter</h1>
+          <form className="relative w-[380px] flex items-center">
+            <input
+              type="email"
+              name="email-address"
+              placeholder="Email address"
+              className="w-full h-[60px] px-5 text-xl placeholder-white text-white rounded bg-[#EDA415]"
+              id=""
+            />
+            <button
+              className="absolute right-3 text-3xl text-white"
+              type="submit"
+            >
+              <FaArrowRight />
+            </button>
+          </form>
+          <div className="flex items-center text-xl">
+            <FaPhoneAlt className="text-[#EDA415]" />
+            <p>Call us at: 0123456789</p>
+          </div>
         </div>
-      </div> */}
-
-      <div className="w-[1320px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-6">
           <div>
             <h3 className="text-3xl font-semibold mb-2">Swift Cart</h3>
@@ -111,7 +110,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-8 text-center">
+        <div className="mt-8 pb-5 text-center">
           <p>&copy; 2024 E-commerce Site. All rights reserved.</p>
         </div>
       </div>

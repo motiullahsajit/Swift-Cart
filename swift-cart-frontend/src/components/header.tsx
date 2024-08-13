@@ -12,7 +12,6 @@ import { User } from "../types/types";
 import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-// import Breadcrumbs from "./Breadcrumbs";
 import { FaBoxArchive } from "react-icons/fa6";
 import { useCategoriesQuery } from "../redux/api/productAPI";
 
@@ -48,7 +47,7 @@ const Header = ({ user }: PropsType) => {
         <div className="flex items-center justify-center ">
           <Link
             to={"/"}
-            className="text-3xl text-white cursor-pointer py-3 px-5 mr-3"
+            className="text-3xl text-white cursor-pointer mr-3"
             onClick={() => setIsOpen(false)}
           >
             Swift Cart
@@ -164,7 +163,6 @@ const Header = ({ user }: PropsType) => {
           )}
         </div>
       </nav>
-      {/* <Breadcrumbs /> */}
     </>
   );
 };

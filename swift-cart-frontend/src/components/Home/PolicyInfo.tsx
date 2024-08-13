@@ -3,8 +3,8 @@ import { IoShieldCheckmark } from "react-icons/io5";
 
 const PolicyInfo = () => {
   return (
-    <div>
-      <div className="flex justify-around items-center w-[1328px] h-[155px] mx-auto bg-[#E2F4FF] rounded-2xl">
+    <section className="mt-10">
+      <div className="flex justify-around items-center h-[155px] mx-auto bg-[#E2F4FF] rounded-lg">
         <div className="flex gap-4 justify-center items-center">
           <FaShippingFast className="text-5xl text-[#EDA415]" />
           <div>
@@ -27,7 +27,7 @@ const PolicyInfo = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

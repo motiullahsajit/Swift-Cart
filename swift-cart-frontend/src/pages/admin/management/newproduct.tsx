@@ -15,7 +15,7 @@ const NewProduct = () => {
   const [category, setCategory] = useState<string>("");
   const [price, setPrice] = useState<number>(1000);
   const [stock, setStock] = useState<number>(1);
-  const [description, setDescription] = useState<string>(""); // New state for description
+  const [description, setDescription] = useState<string>("");
   const [photoPrev, setPhotoPrev] = useState<string>("");
   const [photo, setPhoto] = useState<File>();
 
@@ -49,7 +49,7 @@ const NewProduct = () => {
     formData.set("stock", stock.toString());
     formData.set("photo", photo);
     formData.set("category", category);
-    formData.set("description", description); // Add description to formData
+    formData.set("description", description);
 
     const res = await newProduct({ id: user?._id!, formData });
 
@@ -104,7 +104,7 @@ const NewProduct = () => {
               />
             </div>
             <div>
-              <label>Description</label> {/* Add description input */}
+              <label>Description</label>
               <textarea
                 required
                 placeholder="Product Description"

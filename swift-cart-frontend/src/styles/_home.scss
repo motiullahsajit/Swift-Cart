@@ -1,61 +1,9 @@
-.home {
-  padding: 2rem 5%;
-  display: flex;
-  flex-direction: column;
+.banner1 {
+  background: url(../assets/images/cover.jpg) no-repeat center / cover;
   width: 100%;
-
-  > section {
-    width: 100%;
-    height: 18.75rem;
-    margin: auto;
-    background: url(../assets/images/cover.jpg) no-repeat center / cover;
-  }
-
-  > h1 {
-    @include heading(1px);
-    margin-top: 3rem;
-    @include flex(row, space-between, center);
-  }
-
-  .findmore {
-    font-size: 1rem;
-  }
-
-  .latest {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    gap: 1rem;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  .banner{
-    background-image: url('../assets/images/banner.png');
-    background-repeat: no-repeat;
-  }
 }
-
-.product-card {
- 
-  width: 20rem;
-  height: 27rem;
-  padding: 1rem;
-  flex: none;
-  @include flex(column, flex-start, center, 4px);
-  position: relative;
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.178);
-  border-radius: 10px;
-  img {
-    // @include square(calc(18.75rem - 3rem));
-    width: 100%;
-    object-fit: cover;
-    // margin: 1rem;
-  }
-  span {
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
+.banner2 {
+  background: url(../assets/images/banner.png) no-repeat center / cover;
+  width: 100%;
+  height: 18.75rem;
 }

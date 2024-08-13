@@ -7,15 +7,12 @@ import { useDispatch } from "react-redux";
 import { CartItem } from "../types/types";
 import toast from "react-hot-toast";
 import { addToCart } from "../redux/reducer/cartReducer";
+import ProductReel from "../components/productReel";
 
-/**
- * Component that renders the product details page.
- */
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useProductDetailsQuery(id!);
 
-  // Extract product details including the description
   const { _id, price, photo, name, stock, category, description } =
     data?.product || {
       _id: "",
@@ -24,7 +21,7 @@ const ProductDetails = () => {
       category: "",
       stock: 0,
       price: 0,
-      description: "", // Initialize description
+      description: "",
     };
 
   const dispatch = useDispatch();
@@ -36,48 +33,57 @@ const ProductDetails = () => {
   };
 
   return (
-    <div>
+    <div className="px-4 py-10 lg:py-20">
       {isLoading ? (
         <Skeleton length={40} />
       ) : (
         <>
-          <section className="w-[1320px] mx-auto">
-            <div className="flex justify-around ">
+          <section className="max-w-[1320px] mx-auto">
+            <div className="flex flex-col lg:flex-row justify-around gap-10">
               <img
                 src={`${server}/${photo}`}
-                width={500}
-                height={500}
+                className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 alt={name}
               />
-              <div className="w-[500px] px-5 pt-20">
-                <h1 className="text-4xl mb-3">{name}</h1>
-                <h2 className="text-2xl mb-3">Tk {price}</h2>
-                <h2 className="flex items-center mb-3 gap-3">
-                  Rating:
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStarHalfAlt className="text-yellow-500" />
+              <div className="w-full lg:w-[500px] px-4 lg:px-5 pt-10 lg:pt-20">
+                <h1 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-800">
+                  {name}
+                </h1>
+                <h2 className="text-2xl lg:text-3xl font-semibold mb-3 text-[#EDA415]">
+                  Tk {price}
                 </h2>
-                <p className="mb-3">
-                  Availablity:{" "}
+                <div className="flex items-center mb-3 gap-1 lg:gap-3">
+                  <span className="text-xl lg:text-2xl text-gray-600">
+                    Rating:
+                  </span>
+                  <FaStar className="text-yellow-500 text-xl lg:text-2xl" />
+                  <FaStar className="text-yellow-500 text-xl lg:text-2xl" />
+                  <FaStar className="text-yellow-500 text-xl lg:text-2xl" />
+                  <FaStar className="text-yellow-500 text-xl lg:text-2xl" />
+                  <FaStarHalfAlt className="text-yellow-500 text-xl lg:text-2xl" />
+                </div>
+                <p className="mb-3 text-lg text-gray-700">
+                  Availability:{" "}
                   {stock ? (
                     <span className="text-green-600">In Stock</span>
                   ) : (
                     <span className="text-red-600">Out of Stock</span>
                   )}
                 </p>
-                <p className="text-sm mb-4">
-                  Hurry up only {stock} product{stock > 1 ? "s" : ""} left in
-                  stock
+                <p className="text-sm lg:text-base mb-4 text-gray-600">
+                  Hurry up! Only {stock} product{stock > 1 ? "s" : ""} left in
+                  stock.
                 </p>
-                <hr className="mb-4" />
-                <p className="mb-3">Category: {category}</p>
-                <p className="mb-3">Description: {description}</p>{" "}
-                {/* Display the description */}
+                <hr className="mb-4 border-gray-300" />
+                <p className="text-lg lg:text-xl mb-3 text-gray-800">
+                  Category: <span className="font-semibold">{category}</span>
+                </p>
+                <p className="text-lg lg:text-xl mb-5 text-gray-800">
+                  Description:{" "}
+                  <span className="font-normal">{description}</span>
+                </p>
                 <button
-                  className="h-[40px] w-[125px] bg-[#EDA415] block text-white px-3 py-1 rounded-lg"
+                  className="h-[40px] w-full lg:w-[200px] bg-[#EDA415] hover:bg-[#cc8c10] transition-all duration-300 text-white font-semibold text-lg px-3 py-2 rounded-lg shadow-lg"
                   onClick={() =>
                     addToCartHandler({
                       productId: _id,
@@ -96,6 +102,8 @@ const ProductDetails = () => {
           </section>
         </>
       )}
+
+      <ProductReel type="Similar Products" category={category} />
     </div>
   );
 };
