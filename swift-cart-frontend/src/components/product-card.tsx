@@ -10,6 +10,7 @@ type ProductsProps = {
   stock: number;
   description: string;
   handler: (cartItem: CartItem) => string | undefined;
+  isInCart: boolean;
 };
 
 const ProductCard = ({
@@ -20,19 +21,20 @@ const ProductCard = ({
   stock,
   description,
   handler,
+  isInCart,
 }: ProductsProps) => {
   return (
-    <Link
-      to={`/product/${productId}`}
-      className="flex flex-col items-center w-full max-w-sm p-4 bg-white rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:shadow-xl hover:scale-105"
-    >
-      <div className="w-full h-48 overflow-hidden rounded-t-lg">
+    <div className="flex flex-col items-center w-full max-w-sm p-4 bg-white rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:shadow-xl hover:scale-105">
+      <Link
+        to={`/product/${productId}`}
+        className="w-full h-48 overflow-hidden rounded-t-lg"
+      >
         <img
           src={`${server}/${photo}`}
           alt={name}
           className="object-cover w-full h-full"
         />
-      </div>
+      </Link>
       <div className="flex flex-col items-start justify-center w-full mt-4 px-2">
         <h3 className="text-lg font-bold text-gray-800 mb-2">{name}</h3>
         <span className="text-xl font-semibold text-gray-900 mb-2">
@@ -41,8 +43,13 @@ const ProductCard = ({
         <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description}</p>
         <div className="flex justify-center w-full">
           <button
-            className="w-full px-4 py-2 text-white rounded-lg bg-[#003F62] hover:bg-[#002a4d] transition-colors duration-200"
+            className={`w-full px-4 py-2 text-white rounded-lg ${
+              isInCart
+                ? "bg-gray-500 hover:bg-gray-600"
+                : "bg-[#003F62] hover:bg-[#002a4d]"
+            } transition-colors duration-200`}
             onClick={() =>
+              !isInCart &&
               handler({
                 productId,
                 photo,
@@ -53,11 +60,11 @@ const ProductCard = ({
               })
             }
           >
-            Add to Cart
+            {isInCart ? "Already Added" : "Add to Cart"}
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

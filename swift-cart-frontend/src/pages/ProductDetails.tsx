@@ -3,15 +3,19 @@ import { useProductDetailsQuery } from "../redux/api/productAPI";
 import { Skeleton } from "../components/loader";
 import { server } from "../redux/store";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
 import toast from "react-hot-toast";
 import { addToCart } from "../redux/reducer/cartReducer";
 import ProductReel from "../components/productReel";
+import { RootState } from "../redux/store";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useProductDetailsQuery(id!);
+  const cartItems = useSelector(
+    (state: RootState) => state.cartReducer.cartItems
+  );
 
   const { _id, price, photo, name, stock, category, description } =
     data?.product || {
@@ -30,6 +34,10 @@ const ProductDetails = () => {
     if (cartItem.stock < 1) return toast.error("Out of stock");
     dispatch(addToCart(cartItem));
     toast.success("Product added to cart successfully");
+  };
+
+  const isProductInCart = (productId: string) => {
+    return cartItems.some((item) => item.productId === productId);
   };
 
   return (
@@ -83,8 +91,13 @@ const ProductDetails = () => {
                   <span className="font-normal">{description}</span>
                 </p>
                 <button
-                  className="h-[40px] w-full lg:w-[200px] bg-[#EDA415] hover:bg-[#cc8c10] transition-all duration-300 text-white font-semibold text-lg px-3 py-2 rounded-lg shadow-lg"
+                  className={`h-[40px] w-full lg:w-[200px] ${
+                    isProductInCart(_id)
+                      ? "bg-gray-500 hover:bg-gray-600"
+                      : "bg-[#003F62] hover:bg-[#002a4d]"
+                  } transition-all duration-300 text-white font-semibold text-lg px-3 py-2 rounded-lg shadow-lg`}
                   onClick={() =>
+                    !isProductInCart(_id) &&
                     addToCartHandler({
                       productId: _id,
                       photo,
@@ -95,7 +108,7 @@ const ProductDetails = () => {
                     })
                   }
                 >
-                  Add to Cart
+                  {isProductInCart(_id) ? "Already Added" : "Add to Cart"}
                 </button>
               </div>
             </div>

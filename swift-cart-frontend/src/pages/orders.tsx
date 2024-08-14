@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Column } from "react-table";
 import TableHOC from "../components/admin/TableHOC";
 import { Skeleton } from "../components/loader";

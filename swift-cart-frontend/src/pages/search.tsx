@@ -7,9 +7,10 @@ import {
 import { CustomError } from "../types/api-types";
 import toast from "react-hot-toast";
 import { Skeleton } from "../components/loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
 import { addToCart } from "../redux/reducer/cartReducer";
+import { RootState } from "../redux/store";
 
 const Search = () => {
   const {
@@ -39,11 +40,18 @@ const Search = () => {
   });
 
   const dispatch = useDispatch();
+  const cartItems = useSelector(
+    (state: RootState) => state.cartReducer.cartItems
+  );
 
   const addToCartHandler = (cartItem: CartItem) => {
     if (cartItem.stock < 1) return toast.error("Out of stock");
     dispatch(addToCart(cartItem));
     toast.success("Product added to cart successfully");
+  };
+
+  const isProductInCart = (productId: string) => {
+    return cartItems.some((item) => item.productId === productId);
   };
 
   const totalPage = searchData?.totalPage ?? 1;
@@ -130,6 +138,7 @@ const Search = () => {
                 photo={i.photo}
                 description={i.description}
                 handler={addToCartHandler}
+                isInCart={isProductInCart(i._id)}
               />
             ))}
           </div>
@@ -140,7 +149,9 @@ const Search = () => {
               disabled={!isPrevPage}
               onClick={() => setPage((prev) => prev - 1)}
               className={`px-4 py-2 border rounded-lg ${
-                !isPrevPage ? "opacity-50 cursor-not-allowed" : ""
+                !isPrevPage
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-[#003F62] text-white hover:bg-[#002a4d]"
               }`}
             >
               Prev
@@ -152,7 +163,9 @@ const Search = () => {
               disabled={!isNextPage}
               onClick={() => setPage((prev) => prev + 1)}
               className={`px-4 py-2 border rounded-lg ${
-                !isNextPage ? "opacity-50 cursor-not-allowed" : ""
+                !isNextPage
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-[#003F62] text-white hover:bg-[#002a4d]"
               }`}
             >
               Next

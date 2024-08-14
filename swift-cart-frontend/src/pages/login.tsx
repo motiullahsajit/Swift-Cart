@@ -108,7 +108,7 @@ const Login = () => {
             {isNewUser ? "Already have an account? " : "New here? "}
             <button
               onClick={() => setIsNewUser(!isNewUser)}
-              className="text-blue-500 hover:underline"
+              className="text-[#1B5A7D] font-semibold hover:underline transition-colors duration-300"
             >
               {isNewUser ? "Sign In" : "Sign Up"}
             </button>

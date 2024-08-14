@@ -19,7 +19,6 @@ interface PropsType {
 }
 
 const Header = ({ user }: PropsType) => {
-  console.log(user);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const logoutHandler = async () => {
@@ -75,7 +74,7 @@ const Header = ({ user }: PropsType) => {
                     <Link
                       onClick={() => setIsOpen(false)}
                       to="/"
-                      className="flex items-center gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                      className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                     >
                       {user.name}
                     </Link>
@@ -83,7 +82,7 @@ const Header = ({ user }: PropsType) => {
                       <Link
                         onClick={() => setIsOpen(false)}
                         to="/admin/dashboard"
-                        className="flex items-center gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                        className="flex items-center gap-2  text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                       >
                         <FaUser /> Dashboard
                       </Link>
@@ -91,16 +90,17 @@ const Header = ({ user }: PropsType) => {
                     <Link
                       onClick={() => setIsOpen(false)}
                       to="/orders"
-                      className="flex items-center gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                      className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                     >
                       <FaBoxArchive /> Orders
                     </Link>
-                    <button
+                    <Link
+                      to="/"
                       onClick={logoutHandler}
-                      className="flex items-center gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
+                      className="flex items-center text-[#1B5A7D] gap-2 hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                     >
                       <FaSignOutAlt /> Sign Out
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}

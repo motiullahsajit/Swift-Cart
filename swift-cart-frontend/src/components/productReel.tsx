@@ -4,12 +4,16 @@ import { Skeleton } from "./loader";
 import ProductCard from "./product-card";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
 import { addToCart } from "../redux/reducer/cartReducer";
+import { RootState } from "../redux/store";
 
 const ProductReel = ({ type, category }: any) => {
   const { data, isLoading, isError } = useLatestProductsQuery(category);
+  const cartItems = useSelector(
+    (state: RootState) => state.cartReducer.cartItems
+  );
 
   if (isError) toast.error("Cannot Fetch Products");
   const dispatch = useDispatch();
@@ -18,6 +22,10 @@ const ProductReel = ({ type, category }: any) => {
     if (cartItem.stock < 1) return toast.error("Out of stock");
     dispatch(addToCart(cartItem));
     toast.success("Product added to cart successfully");
+  };
+
+  const isProductInCart = (productId: string) => {
+    return cartItems.some((item) => item.productId === productId);
   };
 
   return (
@@ -45,6 +53,7 @@ const ProductReel = ({ type, category }: any) => {
               photo={i.photo}
               description={i.description}
               handler={addToCartHandler}
+              isInCart={isProductInCart(i._id)}
             />
           ))
         )}
