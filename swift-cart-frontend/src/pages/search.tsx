@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import ProductCard from "../components/product-card";
 import {
   useCategoriesQuery,
@@ -13,6 +14,10 @@ import { addToCart } from "../redux/reducer/cartReducer";
 import { RootState } from "../redux/store";
 
 const Search = () => {
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const initialCategory = query.get("category");
+
   const {
     data: categoriesResponse,
     isLoading: loadingCategories,
@@ -23,7 +28,9 @@ const Search = () => {
   const [productSearch, setProductSearch] = useState("");
   const [sort, setSort] = useState("");
   const [maxPrice, setMaxPrice] = useState(500000);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(
+    initialCategory && initialCategory !== "latest" ? initialCategory : ""
+  );
   const [page, setPage] = useState(1);
 
   const {

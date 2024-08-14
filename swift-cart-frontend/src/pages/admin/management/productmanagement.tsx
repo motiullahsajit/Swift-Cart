@@ -20,19 +20,23 @@ const Productmanagement = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useProductDetailsQuery(params.id!);
-  const { _id, price, photo, name, stock, category } = data?.product || {
-    _id: "",
-    name: "",
-    photo: "",
-    category: "",
-    stock: 0,
-    price: 0,
-  };
+  const { _id, price, photo, name, stock, category, description } =
+    data?.product || {
+      _id: "",
+      name: "",
+      photo: "",
+      category: "",
+      stock: 0,
+      price: 0,
+      description: "",
+    };
 
   const [priceUpdate, setPriceUpdate] = useState<number>(price);
   const [stockUpdate, setStockUpdate] = useState<number>(stock);
   const [nameUpdate, setNameUpdate] = useState<string>(name);
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
+  const [descriptionUpdate, setDescriptionUpdate] =
+    useState<string>(description);
   const [photoUpdate, setPhotoUpdate] = useState<string>("");
   const [photoFile, setPhotoFile] = useState<File>();
 
@@ -66,6 +70,7 @@ const Productmanagement = () => {
       formData.set("stock", stockUpdate.toString());
     if (photoFile) formData.set("photo", photoFile);
     if (categoryUpdate) formData.set("category", categoryUpdate);
+    if (descriptionUpdate) formData.set("description", descriptionUpdate);
 
     const res = await updateProduct({
       formData,
@@ -91,6 +96,7 @@ const Productmanagement = () => {
       setPriceUpdate(price);
       setStockUpdate(stock);
       setCategoryUpdate(category);
+      setDescriptionUpdate(description);
     }
   }, [data]);
 
@@ -108,12 +114,13 @@ const Productmanagement = () => {
               <strong>ID - {_id}</strong>
               <img src={`${server}/${photo}`} alt="Product" />
               <p>{name}</p>
+              <p>{description}</p>
               {stock > 0 ? (
                 <span className="green">{stock} Available</span>
               ) : (
                 <span className="red"> Not Available</span>
               )}
-              <h3>₹{price}</h3>
+              <h3>${price}</h3>
             </section>
             <article>
               <button className="product-delete-btn" onClick={deleteHandler}>
@@ -156,6 +163,15 @@ const Productmanagement = () => {
                     placeholder="eg. laptop, camera etc"
                     value={categoryUpdate}
                     onChange={(e) => setCategoryUpdate(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label>Description</label>
+                  <textarea
+                    placeholder="Product Description"
+                    value={descriptionUpdate}
+                    onChange={(e) => setDescriptionUpdate(e.target.value)}
                   />
                 </div>
 

@@ -13,7 +13,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [gender, setGender] = useState("");
   const [date, setDate] = useState("");
-  const [isNewUser, setIsNewUser] = useState(true);
+  const [isNewUser, setIsNewUser] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
   const [login] = useLoginMutation();
@@ -29,6 +29,22 @@ const Login = () => {
   useEffect(() => {
     validateForm();
   }, [gender, date, isNewUser]);
+
+  const demoUser = {
+    uid: "vlB90O5VTagpjzkWbtkVxWfjRTC3",
+    email: "sajit16-663@s.diu.edu.bd",
+    displayName: "Motiullah Sajit 222-16-663",
+    photoURL:
+      "https://lh3.googleusercontent.com/a/ACg8ocI42IhaJoFPYvB1c-Ha6ddeD5gxeE89jSg1q-pga-bNkK5lWG4=s96-c",
+  };
+
+  const demoAdmin = {
+    uid: "HHFzhOyRGubmsXWQa6pZ6K0cAPJ3",
+    email: "motiullahsajt@gmail.com",
+    displayName: "Motiullah Sajit",
+    photoURL:
+      "https://lh3.googleusercontent.com/a/ACg8ocJWLkYL_uL2gfvntnw3su22ygrdgV67WRUhMthDCEt0=s96-c",
+  };
 
   const loginHandler = async () => {
     try {
@@ -48,6 +64,62 @@ const Login = () => {
       if ("data" in res) {
         toast.success(res.data.message);
         const data = await getUser(user.uid);
+        dispatch(userExits(data.user));
+      } else {
+        const error = res.error as FetchBaseQueryError;
+        const message = (error.data as MessageResponse).message;
+        toast.error(message);
+        dispatch(userNotExits());
+      }
+    } catch (error) {
+      toast.error("Sign In Failed");
+      console.log(error);
+    }
+  };
+
+  const demoUserSignIn = async () => {
+    try {
+      const res = await login({
+        name: demoUser.displayName!,
+        email: demoUser.email!,
+        photo: demoUser.photoURL!,
+        gender: isNewUser ? gender : "",
+        role: "user",
+        dob: isNewUser ? date : "",
+        _id: demoUser.uid!,
+      });
+
+      if ("data" in res) {
+        toast.success(res.data.message);
+        const data = await getUser(demoUser.uid);
+        dispatch(userExits(data.user));
+      } else {
+        const error = res.error as FetchBaseQueryError;
+        const message = (error.data as MessageResponse).message;
+        toast.error(message);
+        dispatch(userNotExits());
+      }
+    } catch (error) {
+      toast.error("Sign In Failed");
+      console.log(error);
+    }
+  };
+
+  const demoAdminSignIn = async () => {
+    try {
+      const res = await login({
+        name: demoAdmin.displayName!,
+        email: demoAdmin.email!,
+        photo: demoAdmin.photoURL!,
+        gender: isNewUser ? gender : "",
+        role: "user",
+        dob: isNewUser ? date : "",
+        _id: demoAdmin.uid!,
+      });
+
+      if ("data" in res) {
+        toast.success(res.data.message);
+        const data = await getUser(demoAdmin.uid);
         dispatch(userExits(data.user));
       } else {
         const error = res.error as FetchBaseQueryError;
@@ -129,6 +201,21 @@ const Login = () => {
             {isNewUser ? "Sign Up with Google" : "Sign In with Google"}
           </span>
         </button>
+
+        <div className="flex justify-center gap-7 mt-4">
+          <button
+            onClick={demoUserSignIn}
+            className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 hover:from-blue-500 hover:to-blue-700 transition-colors duration-300"
+          >
+            <span className="font-medium">Demo User Sign In</span>
+          </button>
+          <button
+            onClick={demoAdminSignIn}
+            className="bg-gradient-to-r from-red-400 to-red-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 hover:from-red-500 hover:to-red-700 transition-colors duration-300"
+          >
+            <span className="font-medium">Demo Admin Sign In</span>
+          </button>
+        </div>
       </div>
     </div>
   );

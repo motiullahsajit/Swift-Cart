@@ -33,7 +33,10 @@ const ProductReel = ({ type, category }: any) => {
       <div className="flex justify-between items-center my-6">
         <h1 className="text-2xl font-semibold text-gray-800">{type}</h1>
         <Link
-          to="/search"
+          to={{
+            pathname: "/search",
+            search: `?category=${category}`,
+          }}
           className="inline-flex items-center bg-[#EDA415] text-white px-4 py-2 rounded shadow-md hover:bg-[#eab346] transition-colors duration-300"
         >
           More <FaArrowRight className="ml-2" />

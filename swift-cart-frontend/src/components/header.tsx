@@ -4,7 +4,6 @@ import {
   FaShoppingCart,
   FaSignInAlt,
   FaSignOutAlt,
-  FaUser,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { User } from "../types/types";
@@ -13,17 +12,22 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { FaBoxArchive } from "react-icons/fa6";
 import logo from "../assets/images/logo.png";
+import { RiDashboardFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { userNotExits } from "../redux/reducer/userReducer";
 
 interface PropsType {
   user: User | null;
 }
 
 const Header = ({ user }: PropsType) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const logoutHandler = async () => {
     try {
       await signOut(auth);
+      dispatch(userNotExits());
       toast.success("Sign Out Successfully");
       setIsOpen(false);
     } catch (error) {
@@ -84,7 +88,7 @@ const Header = ({ user }: PropsType) => {
                         to="/admin/dashboard"
                         className="flex items-center gap-2  text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
                       >
-                        <FaUser /> Dashboard
+                        <RiDashboardFill /> Dashboard
                       </Link>
                     )}
                     <Link

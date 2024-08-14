@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { AiFillFileText } from "react-icons/ai";
-import {
-  FaChartBar,
-  FaChartLine,
-  FaChartPie,
-  FaGamepad,
-  FaStopwatch,
-} from "react-icons/fa";
+import { FaChartBar, FaChartLine, FaChartPie } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
 import {
@@ -59,10 +53,7 @@ const AdminSidebar = () => {
             : {}
         }
       >
-        <h2>Logo.</h2>
         <DivOne location={location} />
-        <DivTwo location={location} />
-        <DivThree location={location} />
 
         {phoneActive && (
           <button id="close-sidebar" onClick={() => setShowModal(false)}>
@@ -76,7 +67,6 @@ const AdminSidebar = () => {
 
 const DivOne = ({ location }: { location: Location }) => (
   <div>
-    <h5>Dashboard</h5>
     <ul>
       <Li
         url="/admin/dashboard"
@@ -98,18 +88,10 @@ const DivOne = ({ location }: { location: Location }) => (
       />
       <Li
         url="/admin/transaction"
-        text="Transaction"
+        text="Orders"
         Icon={AiFillFileText}
         location={location}
       />
-    </ul>
-  </div>
-);
-
-const DivTwo = ({ location }: { location: Location }) => (
-  <div>
-    <h5>Charts</h5>
-    <ul>
       <Li
         url="/admin/chart/bar"
         text="Bar"
@@ -128,30 +110,10 @@ const DivTwo = ({ location }: { location: Location }) => (
         Icon={FaChartLine}
         location={location}
       />
-    </ul>
-  </div>
-);
-
-const DivThree = ({ location }: { location: Location }) => (
-  <div>
-    <h5>Apps</h5>
-    <ul>
-      <Li
-        url="/admin/app/stopwatch"
-        text="Stopwatch"
-        Icon={FaStopwatch}
-        location={location}
-      />
       <Li
         url="/admin/app/coupon"
-        text="Coupon"
+        text="Manage Coupons"
         Icon={RiCoupon3Fill}
-        location={location}
-      />
-      <Li
-        url="/admin/app/toss"
-        text="Toss"
-        Icon={FaGamepad}
         location={location}
       />
     </ul>

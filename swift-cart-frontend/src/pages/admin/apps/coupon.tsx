@@ -1,111 +1,194 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
+import toast from "react-hot-toast";
+import { server } from "../../../redux/store";
+import { FiTrash2 } from "react-icons/fi";
+import { Skeleton } from "../../../components/loader";
+import { useSelector } from "react-redux";
+import { UserReducerInitialState } from "../../../types/reducer-types";
 
-const allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-const allNumbers = "1234567890";
-const allSymbols = "!@#$%^&*()_+";
+interface Coupon {
+  _id: string;
+  code: string;
+  amount: number;
+}
+
+interface ApiResponse {
+  success: boolean;
+  message?: string;
+  coupons?: Coupon[];
+}
 
 const Coupon = () => {
-  const [size, setSize] = useState<number>(8);
-  const [prefix, setPrefix] = useState<string>("");
-  const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
-  const [includeCharacters, setIncludeCharacters] = useState<boolean>(false);
-  const [includeSymbols, setIncludeSymbols] = useState<boolean>(false);
-  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const { user } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+  );
 
-  const [coupon, setCoupon] = useState<string>("");
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [newCoupon, setNewCoupon] = useState({ code: "", amount: 0 });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const copyText = async (coupon: string) => {
-    await window.navigator.clipboard.writeText(coupon);
-    setIsCopied(true);
+  const fetchCoupons = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `${server}/api/v1/payment/coupon/all?id=${user?._id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data: ApiResponse = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to fetch coupons");
+      setCoupons(data.coupons || []);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!includeNumbers && !includeCharacters && !includeSymbols)
-      return alert("Please Select One At Least");
-
-    let result: string = prefix || "";
-    const loopLength: number = size - result.length;
-
-    for (let i = 0; i < loopLength; i++) {
-      let entireString: string = "";
-      if (includeCharacters) entireString += allLetters;
-      if (includeNumbers) entireString += allNumbers;
-      if (includeSymbols) entireString += allSymbols;
-
-      const randomNum: number = ~~(Math.random() * entireString.length);
-      result += entireString[randomNum];
+  const createCoupon = async () => {
+    if (!newCoupon.code || !newCoupon.amount) {
+      toast.error("Please fill in both code and amount.");
+      return;
     }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `${server}/api/v1/payment/coupon/new?id=${user?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newCoupon),
+        }
+      );
+      const data: ApiResponse = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to create coupon");
+      toast.success(data.message || "Coupon created successfully");
+      setNewCoupon({ code: "", amount: 0 });
+      fetchCoupons();
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    setCoupon(result);
+  const deleteCoupon = async (id: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `${server}/api/v1/payment/coupon/${id}?id=${user?._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data: ApiResponse = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to delete coupon");
+      toast.success(data.message || "Coupon deleted successfully");
+      fetchCoupons();
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    setIsCopied(false);
-  }, [coupon]);
+    fetchCoupons();
+  }, []);
 
   return (
-    <div className="admin-container">
+    <div className="flex flex-col lg:flex-row admin-container">
       <AdminSidebar />
-      <main className="dashboard-app-container">
-        <h1>Coupon</h1>
-        <section>
-          <form className="coupon-form" onSubmit={submitHandler}>
+      <main className="dashboard flex-1 p-6 bg-gray-100">
+        <div className="bg-white p-4 rounded-lg shadow mb-6">
+          <h2 className="text-2xl font-semibold mb-4 text-[#1B5A7D] ">
+            Create New Coupon
+          </h2>
+          <div className="flex flex-col lg:flex-row gap-2">
             <input
               type="text"
-              placeholder="Text to include"
-              value={prefix}
-              onChange={(e) => setPrefix(e.target.value)}
-              maxLength={size}
+              placeholder="Code"
+              value={newCoupon.code}
+              onChange={(e) =>
+                setNewCoupon({ ...newCoupon, code: e.target.value })
+              }
+              className="border rounded p-2 flex-1 mb-2 lg:mb-0"
             />
-
             <input
               type="number"
-              placeholder="Coupon Length"
-              value={size}
-              onChange={(e) => setSize(Number(e.target.value))}
-              min={8}
-              max={25}
+              placeholder="Amount"
+              value={newCoupon.amount}
+              onChange={(e) =>
+                setNewCoupon({ ...newCoupon, amount: Number(e.target.value) })
+              }
+              className="border rounded p-2 flex-1 mb-2 lg:mb-0"
             />
+            <button
+              onClick={createCoupon}
+              className="bg-[#1B5A7D] text-white px-4 py-2 rounded hover:bg-[#002a4d] transition"
+            >
+              Create
+            </button>
+          </div>
+        </div>
 
-            <fieldset>
-              <legend>Include</legend>
-
-              <input
-                type="checkbox"
-                checked={includeNumbers}
-                onChange={() => setIncludeNumbers((prev) => !prev)}
-              />
-              <span>Numbers</span>
-
-              <input
-                type="checkbox"
-                checked={includeCharacters}
-                onChange={() => setIncludeCharacters((prev) => !prev)}
-              />
-              <span>Characters</span>
-
-              <input
-                type="checkbox"
-                checked={includeSymbols}
-                onChange={() => setIncludeSymbols((prev) => !prev)}
-              />
-              <span>Symbols</span>
-            </fieldset>
-            <button type="submit">Generate</button>
-          </form>
-
-          {coupon && (
-            <code>
-              {coupon}{" "}
-              <span onClick={() => copyText(coupon)}>
-                {isCopied ? "Copied" : "Copy"}
-              </span>{" "}
-            </code>
-          )}
-        </section>
+        <h2 className="text-2xl font-semibold mb-4 text-[#1B5A7D]">
+          Coupons List
+        </h2>
+        {loading ? (
+          <Skeleton />
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : coupons.length === 0 ? (
+          <div className="bg-white p-6 rounded-lg shadow text-center">
+            <p className="text-lg text-[#1B5A7D]">No coupons available.</p>
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow p-4">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr>
+                  <th className="border-b p-4">Code</th>
+                  <th className="border-b p-4">Amount</th>
+                  <th className="border-b p-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {coupons.map((coupon) => (
+                  <tr key={coupon._id} className="hover:bg-gray-50">
+                    <td className="border-b p-4">{coupon.code}</td>
+                    <td className="border-b p-4">{coupon.amount}</td>
+                    <td className="border-b p-4">
+                      <button
+                        onClick={() => deleteCoupon(coupon._id)}
+                        className="text-red-500 hover:text-red-600 transition"
+                      >
+                        <FiTrash2 size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </main>
     </div>
   );

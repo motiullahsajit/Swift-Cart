@@ -11,7 +11,7 @@ import { CustomError } from "../../types/api-types";
 import { UserReducerInitialState } from "../../types/reducer-types";
 
 interface DataType {
-  user: string;
+  _id: string;
   amount: number;
   discount: number;
   quantity: number;
@@ -21,8 +21,8 @@ interface DataType {
 
 const columns: Column<DataType>[] = [
   {
-    Header: "Avatar",
-    accessor: "user",
+    Header: "ID",
+    accessor: "_id",
   },
   {
     Header: "Amount",
@@ -50,7 +50,6 @@ const Transaction = () => {
   const { user } = useSelector(
     (state: { userReducer: UserReducerInitialState }) => state.userReducer
   );
-
   const { isLoading, isError, error, data } = useAllOrdersQuery(user?._id!);
 
   if (isError) toast.error((error as CustomError).data.message);
@@ -61,7 +60,7 @@ const Transaction = () => {
     if (data) {
       setRows(
         data.orders.map((i) => ({
-          user: i.user.name,
+          _id: i._id,
           amount: i.total,
           discount: i.discount,
           quantity: i.orderItems.length,
@@ -88,7 +87,7 @@ const Transaction = () => {
     columns,
     rows,
     "dashboard-product-box",
-    "Transactions",
+    "Orders",
     rows.length > 6
   )();
   return (

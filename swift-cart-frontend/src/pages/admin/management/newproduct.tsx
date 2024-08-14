@@ -57,68 +57,89 @@ const NewProduct = () => {
   };
 
   return (
-    <div className="admin-container">
+    <div className="admin-container bg-gray-100">
       <AdminSidebar />
       <main className="product-management">
-        <article>
-          <form onSubmit={submitHandler}>
-            <h2>New Product</h2>
-            <div>
-              <label>Name</label>
+        <article className="bg-white shadow-md rounded p-6 max-w-lg mx-auto">
+          <form onSubmit={submitHandler} className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold text-center mb-4">New Product</h2>
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Name</label>
               <input
                 required
                 type="text"
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label>Price</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Price</label>
               <input
                 required
                 type="number"
                 placeholder="Price"
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label>Stock</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Stock</label>
               <input
                 required
                 type="number"
                 placeholder="Stock"
                 value={stock}
                 onChange={(e) => setStock(Number(e.target.value))}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label>Category</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Category</label>
               <input
                 required
                 type="text"
-                placeholder="eg. laptop, camera etc"
+                placeholder="e.g., laptop, camera"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label>Description</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Description</label>
               <textarea
                 required
                 placeholder="Product Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-              <label>Photo</label>
-              <input required type="file" onChange={changeImageHandler} />
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-700">Photo</label>
+              <input
+                required
+                type="file"
+                onChange={changeImageHandler}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            {photoPrev && <img src={photoPrev} alt="New Image" />}
-            <button type="submit">Create</button>
+            {photoPrev && (
+              <img
+                src={photoPrev}
+                alt="Preview"
+                className="w-32 h-32 object-cover rounded mt-4"
+              />
+            )}
+            <button
+              type="submit"
+              className="bg-blue-600 text-white rounded py-2 mt-4 hover:bg-blue-700 transition duration-200"
+            >
+              Create
+            </button>
           </form>
         </article>
       </main>
