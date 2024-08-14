@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../firebase";
@@ -13,8 +13,22 @@ const Login = () => {
   const dispatch = useDispatch();
   const [gender, setGender] = useState("");
   const [date, setDate] = useState("");
+  const [isNewUser, setIsNewUser] = useState(true);
+  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const [login] = useLoginMutation();
+
+  const validateForm = () => {
+    if (isNewUser) {
+      setIsFormComplete(gender !== "" && date !== "");
+    } else {
+      setIsFormComplete(true);
+    }
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [gender, date, isNewUser]);
 
   const loginHandler = async () => {
     try {
@@ -25,9 +39,9 @@ const Login = () => {
         name: user.displayName!,
         email: user.email!,
         photo: user.photoURL!,
-        gender,
+        gender: isNewUser ? gender : "",
         role: "user",
-        dob: date,
+        dob: isNewUser ? date : "",
         _id: user.uid!,
       });
 
@@ -48,32 +62,74 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <main>
-        <h1 className="heading">Login</h1>
-        <div>
-          <label>Gender</label>
-          <select value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          {isNewUser ? "Sign Up" : "Sign In"}
+        </h1>
+
+        {isNewUser ? (
+          <>
+            <div className="mb-4">
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="gender"
+              >
+                Gender
+              </label>
+              <select
+                id="gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium mb-2" htmlFor="dob">
+                Date of Birth
+              </label>
+              <input
+                id="dob"
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </>
+        ) : null}
+
+        <div className="mb-6 text-center">
+          <p className="text-sm text-gray-600 mb-4">
+            {isNewUser ? "Already have an account? " : "New here? "}
+            <button
+              onClick={() => setIsNewUser(!isNewUser)}
+              className="text-blue-500 hover:underline"
+            >
+              {isNewUser ? "Sign In" : "Sign Up"}
+            </button>
+          </p>
         </div>
-        <div>
-          <label>Date of Birth</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <p>Already Signed In Once</p>
-          <button onClick={loginHandler}>
-            <FcGoogle /> <span>Sign in with Google</span>
-          </button>
-        </div>
-      </main>
+
+        <button
+          onClick={loginHandler}
+          disabled={!isFormComplete}
+          className={`w-full bg-[#1B5A7D] text-white px-4 py-2 rounded-lg shadow-lg flex items-center justify-center gap-2 ${
+            !isFormComplete
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-[#0a405e]"
+          }`}
+        >
+          <FcGoogle className="text-2xl" />
+          <span>
+            {isNewUser ? "Sign Up with Google" : "Sign In with Google"}
+          </span>
+        </button>
+      </div>
     </div>
   );
 };

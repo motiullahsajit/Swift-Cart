@@ -10,9 +10,9 @@
   box-sizing: border-box;
 }
 
-// body {
-//   user-select: none;
-// }
+body {
+  user-select: none;
+}
 
 a {
   text-decoration: none;
@@ -61,42 +61,6 @@ $color3: #003f62;
   @include heading;
   margin: 1rem 0;
   text-align: center;
-}
-
-.header {
-  @include flex(row, flex-end, stretch, 1.2rem);
-  padding: 1rem;
-  a {
-    color: $color2;
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-    &:hover {
-      color: $color3;
-    }
-  }
-
-  button {
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    background-color: transparent;
-    &:hover {
-      color: $color3;
-    }
-  }
-
-  dialog {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100px;
-    position: absolute;
-    left: calc(100% - 100px);
-    top: 8%;
-    > div {
-      @include flex(column, flex-start, center, 0.25rem);
-    }
-  }
 }
 
 .not-found {
@@ -277,8 +241,8 @@ $color3: #003f62;
   > div {
     @include square(10rem);
     border-radius: 50%;
-    border-top: 1rem solid rgb(43, 43, 43);
-    border-left: 1rem solid rgb(43, 43, 43);
+    border-top: 1rem solid #1b5a7d;
+    border-left: 1rem solid #1b5a7d;
     border-right: 1rem solid #fff;
     border-bottom: 1rem solid #fff;
     animation: loading-animation 0.5s linear infinite;

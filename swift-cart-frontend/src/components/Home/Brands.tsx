@@ -10,15 +10,29 @@ import {
 
 const Brands = () => {
   return (
-    <section className="">
-      <div className="h-[130px] flex justify-evenly items-center bg-[#E2F4FF] rounded-lg">
-        <SiSamsung className="text-[60px]" />
-        <SiSony className="text-[60px]" />
-        <FaApple className="text-[50px]" />
-        <SiLenovo className="text-[60px]" />
-        <SiAsus className="text-[60px]" />
-        <SiNikon className="text-[60px]" />
-        <SiDell className="text-[50px]" />
+    <section className="mt-12">
+      <div className="flex flex-wrap justify-evenly gap-6 md:gap-8 lg:gap-12 items-center bg-[#E2F4FF] rounded-lg py-8 shadow-lg">
+        <div className="brand-item">
+          <SiSamsung className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <SiSony className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <FaApple className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <SiLenovo className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <SiAsus className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <SiNikon className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
+        <div className="brand-item">
+          <SiDell className="text-[50px] md:text-[70px] lg:text-[80px] transition-transform duration-300 transform hover:scale-110" />
+        </div>
       </div>
     </section>
   );
