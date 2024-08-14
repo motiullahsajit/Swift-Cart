@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
 import { Skeleton } from "./loader";
 import ProductCard from "./product-card";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
@@ -20,14 +21,17 @@ const ProductReel = ({ type, category }: any) => {
   };
 
   return (
-    <section className="px-20 my-16">
+    <section className="px-5 md:px-10 lg:px-20 my-16">
       <div className="flex justify-between items-center my-6">
         <h1 className="text-2xl font-semibold text-gray-800">{type}</h1>
-        <Link to="/search" className="text-blue-500 hover:underline">
-          More
+        <Link
+          to="/search"
+          className="inline-flex items-center bg-[#EDA415] text-white px-4 py-2 rounded shadow-md hover:bg-[#eab346] transition-colors duration-300"
+        >
+          More <FaArrowRight className="ml-2" />
         </Link>
       </div>
-      <div className="latest grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="latest grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
         {isLoading ? (
           <Skeleton width="100%" />
         ) : (

@@ -1,19 +1,18 @@
 import { useState } from "react";
 import {
-  FaHome,
   FaSearch,
   FaShoppingCart,
   FaSignInAlt,
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { User } from "../types/types";
 import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { FaBoxArchive } from "react-icons/fa6";
-import { useCategoriesQuery } from "../redux/api/productAPI";
+import logo from "../assets/images/logo.png";
 
 interface PropsType {
   user: User | null;
@@ -21,11 +20,9 @@ interface PropsType {
 
 const Header = ({ user }: PropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isOpenCategories, setIsOpenCategories] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
+  // const [isOpenCategories, setIsOpenCategories] = useState<boolean>(false);
+  // const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: categories, isLoading } = useCategoriesQuery("");
   // const searchHandler = (event: React.FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
   //   navigate(`/search?name=${searchTerm}`);
@@ -43,14 +40,14 @@ const Header = ({ user }: PropsType) => {
 
   return (
     <>
-      <nav className="bg-[#003F62] flex justify-between px-20 items-center gap-3 h-[80px]">
+      <nav className="bg-[#003F62] flex justify-between lg:px-20 sm-px-10 items-center gap-3 h-[80px]">
         <div className="flex items-center justify-center ">
           <Link
             to={"/"}
-            className="text-3xl text-white cursor-pointer mr-3"
+            className="text-3xl text-white cursor-pointer mr-3 flex items-center"
             onClick={() => setIsOpen(false)}
           >
-            Swift Cart
+            <img src={logo} alt="" style={{ width: "3rem" }} />
           </Link>
           {/* <form onSubmit={searchHandler}>
             <input
@@ -68,13 +65,6 @@ const Header = ({ user }: PropsType) => {
         </div>
         <div className="flex items-center justify-center gap-3">
           <Link
-            className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg "
-            onClick={() => setIsOpen(false)}
-            to={"/"}
-          >
-            <FaHome />
-          </Link>
-          <Link
             onClick={() => setIsOpen(false)}
             to={"/search"}
             className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
@@ -88,35 +78,10 @@ const Header = ({ user }: PropsType) => {
           >
             <FaShoppingCart />
           </Link>
-          <Link
-            className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
-            to={"/products"}
-            onMouseEnter={() => setIsOpenCategories(true)}
-            onMouseLeave={() => setIsOpenCategories(false)}
-          >
-            Products
-            {isOpenCategories && !isLoading && (
-              <dialog
-                className="relative text-[#1B5A7D] "
-                open={isOpenCategories}
-              >
-                <div className="flex flex-col gap-1 p-3 absolute right-0 mt-4 w-48 bg-white rounded- shadow-lg z-10">
-                  {categories?.categories.map((category) => (
-                    <Link
-                      className="flex items-center gap-2 text-[#1B5A7D] hover:bg-[#E2F4FF] px-3 py-2 rounded-lg"
-                      to={`/category/${category}`}
-                    >
-                      {category}
-                    </Link>
-                  ))}
-                </div>
-              </dialog>
-            )}
-          </Link>
           {user?._id ? (
             <>
               <button
-                className="flex items-center gap-2 text-white text-xl"
+                className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <FaUser />

@@ -2,12 +2,12 @@
   @include flex;
   .back-btn {
     @include square(2.5rem);
-    background-color: $color2;
+    background-color: $color3;
     color: $color1;
     @include flex;
     position: fixed;
-    top: 2rem;
-    left: 2rem;
+    top: 6rem;
+    left: 1rem;
     border-radius: 100%;
     border: none;
     outline: none;

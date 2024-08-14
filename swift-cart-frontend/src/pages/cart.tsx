@@ -70,8 +70,8 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="cart">
-      <main>
+    <div className="flex flex-col lg:flex-row max-w-screen-xl mx-auto p-8 lg:space-x-12">
+      <main className="flex-1">
         {cartItems.length > 0 ? (
           cartItems.map((i, idx) => (
             <CartItemCard
@@ -83,36 +83,57 @@ const Cart = () => {
             />
           ))
         ) : (
-          <h1>No Items Added</h1>
+          <h1 className="text-center text-2xl font-semibold text-gray-600 mt-4">
+            No Items Added
+          </h1>
         )}
       </main>
-      <aside>
-        <p>Subtotal: ${subtotal}</p>
-        <p>Shipping Charges: ${shippingCharges}</p>
-        <p>Tax: ${tax}</p>
-        <p>
-          Discount: <em className="red"> - ${discount}</em>
-        </p>
-        <p>
-          <b>Total: ${total}</b>
-        </p>
-        <input
-          type="text"
-          placeholder="Coupon Code"
-          value={couponCode}
-          onChange={(e) => setCouponCode(e.target.value)}
-        />
-        {couponCode &&
-          (isValidCouponCode ? (
-            <span className="green">
-              ${discount} off using <code>{couponCode}</code>
-            </span>
-          ) : (
-            <span className="red">
-              Invalid Coupon Code <VscError />
-            </span>
-          ))}
-        {cartItems.length > 0 && <Link to="/shipping">Checkout</Link>}
+      <aside className="lg:w-1/3 bg-white p-8 rounded-lg shadow-2xl">
+        <div className="space-y-6">
+          <p className="flex justify-between text-xl">
+            <span>Subtotal:</span> <span>${subtotal.toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between text-xl">
+            <span>Shipping Charges:</span>{" "}
+            <span>${shippingCharges.toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between text-xl">
+            <span>Tax:</span> <span>${tax.toFixed(2)}</span>
+          </p>
+          <p className="flex justify-between text-xl text-red-600">
+            <span>Discount:</span> <em>- ${discount.toFixed(2)}</em>
+          </p>
+          <p className="flex justify-between text-2xl font-bold">
+            <span>Total:</span> <span>${total.toFixed(2)}</span>
+          </p>
+        </div>
+        <div className="mt-8">
+          <input
+            type="text"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#EDA415]"
+            placeholder="Coupon Code"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+          />
+          {couponCode &&
+            (isValidCouponCode ? (
+              <span className="text-green-600 mt-2 block">
+                ${discount.toFixed(2)} off using <code>{couponCode}</code>
+              </span>
+            ) : (
+              <span className="text-red-600 mt-2 block">
+                Invalid Coupon Code <VscError />
+              </span>
+            ))}
+        </div>
+        {cartItems.length > 0 && (
+          <Link
+            to="/shipping"
+            className="block mt-8 text-center bg-[#1B5A7D] hover:bg-[#0f628e] text-white font-semibold py-3 rounded-lg transition-all duration-300"
+          >
+            Checkout
+          </Link>
+        )}
       </aside>
     </div>
   );

@@ -19,7 +19,8 @@ const Home = () => {
       </section>
       <ProductReel type="Latest Products" category="latest" />
       <ProductReel type="Latest Phones" category="phone" />
-      <section className="banner2 flex items-center justify-end px-20 h-[417px] w-[1320px]">
+      <PolicyInfo />
+      <section className="banner2 flex items-center justify-end px-20 h-[417px] w-[1320px] mt-16">
         <div className="text-center mx-10">
           <h1 className="text-3xl my-5 text-white">Sale up to 50% off</h1>
           <Link
@@ -30,7 +31,6 @@ const Home = () => {
           </Link>
         </div>
       </section>
-      <PolicyInfo />
       <ProductReel type="Latest Laptops" category="laptop" />
       <ProductReel type="Latest Watches" category="watch" />
       <Brands />

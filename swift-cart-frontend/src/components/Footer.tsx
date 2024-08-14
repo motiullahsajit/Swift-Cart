@@ -1,5 +1,6 @@
 import { FaArrowRight, FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import logo from "../assets/images/logo.png";
 
 const Footer = () => {
   return (
@@ -23,13 +24,15 @@ const Footer = () => {
             </button>
           </form>
           <div className="flex items-center text-xl">
-            <FaPhoneAlt className="text-[#EDA415]" />
+            <FaPhoneAlt className="text-[#EDA415] mr-2" />
             <p>Call us at: 0123456789</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-6">
           <div>
+            <img src={logo} alt="" style={{ width: "3rem" }} />
             <h3 className="text-3xl font-semibold mb-2">Swift Cart</h3>
+
             <p className="flex items-center gap-2 text-lg">
               <FaLocationDot className="text-gray-400" /> Dhaka, Bangladesh
             </p>
