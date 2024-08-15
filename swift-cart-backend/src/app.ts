@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const corsOptions = {
-  origin: "https://swift-cart-zeta.vercel.app/",
+  origin: "https://swift-cart-zeta.vercel.app",
 };
 
 app.use(cors(corsOptions));
