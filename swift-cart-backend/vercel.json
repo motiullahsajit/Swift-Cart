@@ -17,7 +17,7 @@
   ],
   "env": {
     "PORT": "4000",
-    "MONGO_URI": "@mongo_uri",
-    "STRIPE_KEY": "@stripe_key"
+    "MONGO_URI": "@MONGO_URI",
+    "STRIPE_KEY": "@STRIPE_KEY"
   }
 }
