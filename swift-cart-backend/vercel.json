@@ -14,10 +14,5 @@
       "src": "/(.*)",
       "dest": "/app.ts"
     }
-  ],
-  "env": {
-    "PORT": "4000",
-    "MONGO_URI": "@MONGO_URI",
-    "STRIPE_KEY": "@STRIPE_KEY"
-  }
+  ]
 }
