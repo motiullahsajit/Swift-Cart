@@ -19,12 +19,5 @@
     "PORT": "4000",
     "MONGO_URI": "@mongo_uri",
     "STRIPE_KEY": "@stripe_key"
-  },
-  "build": {
-    "env": {
-      "PORT": "4000",
-      "MONGO_URI": "@mongo_uri",
-      "STRIPE_KEY": "@stripe_key"
-    }
   }
 }
