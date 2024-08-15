@@ -95,7 +95,7 @@ const ProductDetails = () => {
                     isProductInCart(_id)
                       ? "bg-gray-500 hover:bg-gray-600"
                       : "bg-[#003F62] hover:bg-[#002a4d]"
-                  } transition-all duration-300 text-white font-semibold text-lg px-3 py-2 rounded-lg shadow-lg`}
+                  } transition-all duration-300 text-white font-semibold text-lg px-3 rounded-lg shadow-lg`}
                   onClick={() =>
                     !isProductInCart(_id) &&
                     addToCartHandler({
