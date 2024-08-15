@@ -15,6 +15,7 @@ export type Product = {
   category: string;
   photo: string;
   _id: string;
+  description: string;
 };
 
 export type ShippingInfo = {

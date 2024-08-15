@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 }
@@ -21,7 +21,7 @@ a {
 
 $color1: white;
 $color2: rgb(46, 46, 46);
-$color3: rgb(0, 104, 136);
+$color3: #1b5a7d;
 
 .red {
   color: red;
@@ -37,8 +37,6 @@ $color3: rgb(0, 104, 136);
 @import "home";
 @import "cart";
 @import "shipping";
-@import "login";
-@import "search";
 @import "admin-styles/dashboard";
 @import "admin-styles/products";
 @import "admin-styles/chart";
@@ -61,42 +59,6 @@ $color3: rgb(0, 104, 136);
   @include heading;
   margin: 1rem 0;
   text-align: center;
-}
-
-.header {
-  @include flex(row, flex-end, stretch, 1.2rem);
-  padding: 1rem;
-  a {
-    color: $color2;
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-    &:hover {
-      color: $color3;
-    }
-  }
-
-  button {
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    background-color: transparent;
-    &:hover {
-      color: $color3;
-    }
-  }
-
-  dialog {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100px;
-    position: absolute;
-    left: calc(100% - 100px);
-    top: 8%;
-    > div {
-      @include flex(column, flex-start, center, 0.25rem);
-    }
-  }
 }
 
 .not-found {
@@ -192,8 +154,8 @@ $color3: rgb(0, 104, 136);
       }
       a {
         text-decoration: none;
-        background-color: rgba(44, 104, 255, 0.455);
-        color: rgba(44, 104, 255);
+        background-color: #1b5a7d;
+        color: #fff;
         padding: 0.25rem 0.5rem;
         border-radius: 10px;
       }
@@ -231,7 +193,7 @@ $color3: rgb(0, 104, 136);
     outline: none;
     border-radius: 10px;
     cursor: pointer;
-    background-color: rgba(0, 115, 255);
+    background-color: #1b5a7d;
     color: white;
     &:disabled {
       background-color: rgba(0, 115, 255, 0.1);
@@ -247,7 +209,7 @@ $color3: rgb(0, 104, 136);
   border: none;
   outline: none;
   cursor: pointer;
-  color: rgba(44, 104, 255);
+  color: #1b5a7d;
   position: fixed;
   top: 1rem;
   left: 1rem;
@@ -277,8 +239,8 @@ $color3: rgb(0, 104, 136);
   > div {
     @include square(10rem);
     border-radius: 50%;
-    border-top: 1rem solid rgb(43, 43, 43);
-    border-left: 1rem solid rgb(43, 43, 43);
+    border-top: 1rem solid #1b5a7d;
+    border-left: 1rem solid #1b5a7d;
     border-right: 1rem solid #fff;
     border-bottom: 1rem solid #fff;
     animation: loading-animation 0.5s linear infinite;

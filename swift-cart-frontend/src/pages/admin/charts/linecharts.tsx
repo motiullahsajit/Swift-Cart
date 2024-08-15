@@ -26,8 +26,6 @@ const Linecharts = () => {
     <div className="admin-container">
       <AdminSidebar />
       <main className="chart-container">
-        <h1>Line Charts</h1>
-
         {isLoading ? (
           <Skeleton length={15} />
         ) : (

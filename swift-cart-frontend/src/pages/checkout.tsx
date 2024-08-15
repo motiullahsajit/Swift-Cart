@@ -81,10 +81,14 @@ const CheckOutForm = () => {
   };
 
   return (
-    <div className="checkout-container">
-      <form onSubmit={submitHandler}>
+    <div className="checkout-container max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-4">
+      <form onSubmit={submitHandler} className="space-y-6">
         <PaymentElement />
-        <button type="submit" disabled={isProcessing}>
+        <button
+          type="submit"
+          disabled={isProcessing}
+          className="w-full bg-[#1B5A7D] hover:bg-[#11628e] text-white font-semibold py-3 rounded-lg transition-all duration-300 disabled:bg-gray-400"
+        >
           {isProcessing ? "Processing..." : "Pay"}
         </button>
       </form>
@@ -94,20 +98,21 @@ const CheckOutForm = () => {
 
 const Checkout = () => {
   const location = useLocation();
-
   const clientSecret: string | undefined = location.state;
 
   if (!clientSecret) return <Navigate to={"/shipping"} />;
 
   return (
-    <Elements
-      options={{
-        clientSecret,
-      }}
-      stripe={stripePromise}
-    >
-      <CheckOutForm />
-    </Elements>
+    <div className="flex items-center justify-center bg-gray-50 p-16">
+      <Elements
+        options={{
+          clientSecret,
+        }}
+        stripe={stripePromise}
+      >
+        <CheckOutForm />
+      </Elements>
+    </div>
   );
 };
 

@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Column } from "react-table";
 import TableHOC from "../components/admin/TableHOC";
 import { Skeleton } from "../components/loader";
 import { useMyOrdersQuery } from "../redux/api/orderAPI";
 import { CustomError } from "../types/api-types";
 import { RootState } from "../redux/store";
+import { FaShoppingCart } from "react-icons/fa";
 
 type DataType = {
   _id: string;
@@ -15,13 +15,17 @@ type DataType = {
   quantity: number;
   discount: number;
   status: ReactElement;
-  action: ReactElement;
+  orderItems: string;
 };
 
 const column: Column<DataType>[] = [
   {
     Header: "ID",
     accessor: "_id",
+  },
+  {
+    Header: "Items",
+    accessor: "orderItems",
   },
   {
     Header: "Quantity",
@@ -39,20 +43,19 @@ const column: Column<DataType>[] = [
     Header: "Status",
     accessor: "status",
   },
-  {
-    Header: "Action",
-    accessor: "action",
-  },
 ];
 
 const Orders = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
-
   const { isLoading, isError, error, data } = useMyOrdersQuery(user?._id!);
 
-  if (isError) toast.error((error as CustomError).data.message);
-
   const [rows, setRows] = useState<DataType[]>([]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error((error as CustomError).data.message);
+    }
+  }, [isError, error]);
 
   useEffect(() => {
     if (data) {
@@ -66,16 +69,16 @@ const Orders = () => {
             <span
               className={
                 i.status === "Processing"
-                  ? "red"
+                  ? "text-red-500"
                   : i.status === "Shipped"
-                  ? "green"
-                  : "purple"
+                  ? "text-green-500"
+                  : "text-purple-500"
               }
             >
               {i.status}
             </span>
           ),
-          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+          orderItems: i.orderItems.map((item) => item.name).join(", "),
         }))
       );
     }
@@ -85,13 +88,29 @@ const Orders = () => {
     column,
     rows,
     "dashboard-product-box",
-    "Orders",
+    "My Orders",
     rows.length > 6
   )();
+
   return (
-    <div className="container">
-      <h1>My Orders</h1>
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+    <div className="container mx-auto px-4 py-6">
+      <main>
+        {isLoading ? (
+          <Skeleton length={20} />
+        ) : rows.length > 0 ? (
+          Table
+        ) : (
+          <div className="flex flex-col items-center justify-center p-6 border rounded-lg shadow-lg bg-white min-h-[300px]">
+            <FaShoppingCart className="text-gray-400 text-6xl mb-4" />
+            <p className="text-center text-gray-600 text-lg font-semibold">
+              You haven't placed any orders yet.
+            </p>
+            <p className="text-center text-gray-500 mt-2">
+              Start exploring our products and place your first order!
+            </p>
+          </div>
+        )}
+      </main>
     </div>
   );
 };

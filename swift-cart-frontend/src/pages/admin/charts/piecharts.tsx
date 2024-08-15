@@ -23,15 +23,13 @@ const PieCharts = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="chart-container">
-        <h1>Pie & Doughnut Charts</h1>
-
+      <main className="flex-1 p-6 bg-gray-100 overflow-y-auto">
         {isLoading ? (
           <Skeleton length={20} />
         ) : (
-          <>
-            <section>
-              <div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <PieChart
                   labels={["Processing", "Shipped", "Delivered"]}
                   data={[order.processing, order.shipped, order.delivered]}
@@ -43,11 +41,13 @@ const PieCharts = () => {
                   offset={[0, 0, 50]}
                 />
               </div>
-              <h2>Order Fulfillment Ratio</h2>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Order Fulfillment Ratio
+              </h2>
             </section>
 
-            <section>
-              <div>
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <DoughnutChart
                   labels={categories.map((i) => Object.keys(i)[0])}
                   data={categories.map((i) => Object.values(i)[0])}
@@ -61,11 +61,13 @@ const PieCharts = () => {
                   offset={[0, 0, 0, 80]}
                 />
               </div>
-              <h2>Product Categories Ratio</h2>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Product Categories Ratio
+              </h2>
             </section>
 
-            <section>
-              <div>
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <DoughnutChart
                   labels={["In Stock", "Out Of Stock"]}
                   data={[stock.inStock, stock.outOfStock]}
@@ -75,11 +77,13 @@ const PieCharts = () => {
                   cutout={"70%"}
                 />
               </div>
-              <h2> Stock Availability</h2>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Stock Availability
+              </h2>
             </section>
 
-            <section>
-              <div>
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <DoughnutChart
                   labels={[
                     "Marketing Cost",
@@ -106,11 +110,13 @@ const PieCharts = () => {
                   offset={[20, 30, 20, 30, 80]}
                 />
               </div>
-              <h2>Revenue Distribution</h2>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Revenue Distribution
+              </h2>
             </section>
 
-            <section>
-              <div>
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <PieChart
                   labels={[
                     "Teenager(Below 20)",
@@ -126,11 +132,13 @@ const PieCharts = () => {
                   offset={[0, 0, 50]}
                 />
               </div>
-              <h2>Users Age Group</h2>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Users Age Group
+              </h2>
             </section>
 
-            <section>
-              <div>
+            <section className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex justify-center">
                 <DoughnutChart
                   labels={["Admin", "Customers"]}
                   data={[adminAndCustomers.admins, adminAndCustomers.customers]}
@@ -138,8 +146,11 @@ const PieCharts = () => {
                   offset={[0, 50]}
                 />
               </div>
+              <h2 className="text-xl font-semibold text-center mt-4">
+                Admin vs Customers
+              </h2>
             </section>
-          </>
+          </div>
         )}
       </main>
     </div>
