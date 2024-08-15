@@ -78,16 +78,9 @@ export const newProduct = TryCatch(
     res: Response,
     next: NextFunction
   ) => {
-    const { name, price, stock, category, description } = req.body;
-    const photo = req.file;
+    const { name, price, stock, category, description, photo } = req.body;
 
-    if (!photo) return next(new ErrorHandler("Please add Photo", 400));
-
-    if (!name || !price || !stock || !category || !description) {
-      rm(photo.path, () => {
-        console.log("Deleted");
-      });
-
+    if (!name || !price || !stock || !category || !description || !photo) {
       return next(new ErrorHandler("Please enter All Fields", 400));
     }
 
@@ -97,7 +90,7 @@ export const newProduct = TryCatch(
       stock,
       category: category.toLowerCase(),
       description,
-      photo: photo.path,
+      photo: photo,
     });
 
     invalidateCache({ product: true, admin: true });
@@ -111,25 +104,18 @@ export const newProduct = TryCatch(
 
 export const updateProduct = TryCatch(async (req, res, next) => {
   const { id } = req.params;
-  const { name, price, stock, category, description } = req.body;
-  const photo = req.file;
+  const { name, price, stock, category, description, photo } = req.body;
+
   const product = await Product.findById(id);
 
   if (!product) return next(new ErrorHandler("Product Not Found", 404));
-
-  if (photo) {
-    rm(product.photo, () => {
-      console.log("Old Photo Deleted");
-    });
-
-    product.photo = photo.path;
-  }
 
   if (name) product.name = name;
   if (price) product.price = price;
   if (stock) product.stock = stock;
   if (category) product.category = category;
   if (description) product.description = description;
+  if (photo) product.photo = photo;
 
   await product.save();
   invalidateCache({

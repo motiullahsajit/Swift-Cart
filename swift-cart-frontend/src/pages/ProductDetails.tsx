@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useProductDetailsQuery } from "../redux/api/productAPI";
 import { Skeleton } from "../components/loader";
-import { server } from "../redux/store";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
@@ -49,7 +48,7 @@ const ProductDetails = () => {
           <section className="max-w-[1320px] mx-auto">
             <div className="flex flex-col lg:flex-row justify-around gap-10">
               <img
-                src={`${server}/${photo}`}
+                src={`${photo}`}
                 className="w-full max-w-[500px] h-auto rounded-lg shadow-lg"
                 alt={name}
               />

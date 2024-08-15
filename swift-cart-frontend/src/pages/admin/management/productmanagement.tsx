@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
@@ -9,7 +10,6 @@ import {
   useProductDetailsQuery,
   useUpdateProductMutation,
 } from "../../../redux/api/productAPI";
-import { server } from "../../../redux/store";
 import { Skeleton } from "../../../components/loader";
 import { responseToast } from "../../../utils/features";
 
@@ -37,25 +37,27 @@ const Productmanagement = () => {
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
   const [descriptionUpdate, setDescriptionUpdate] =
     useState<string>(description);
-  const [photoUpdate, setPhotoUpdate] = useState<string>("");
-  const [photoFile, setPhotoFile] = useState<File>();
+  const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
 
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
-  const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | undefined = e.target.files?.[0];
 
-    const reader: FileReader = new FileReader();
-
     if (file) {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          setPhotoUpdate(reader.result);
-          setPhotoFile(file);
-        }
-      };
+      try {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const response = await axios.post(
+          `https://api.imgbb.com/1/upload?key=a02776d30dbf5d3144e198ba292d1b5f`,
+          formData
+        );
+        setPhotoUpdate(response.data.data.url);
+      } catch (error) {
+        console.error("Error uploading image", error);
+      }
     }
   };
 
@@ -68,7 +70,7 @@ const Productmanagement = () => {
     if (priceUpdate) formData.set("price", priceUpdate.toString());
     if (stockUpdate !== undefined)
       formData.set("stock", stockUpdate.toString());
-    if (photoFile) formData.set("photo", photoFile);
+    if (photoUpdate) formData.set("photo", photoUpdate);
     if (categoryUpdate) formData.set("category", categoryUpdate);
     if (descriptionUpdate) formData.set("description", descriptionUpdate);
 
@@ -97,6 +99,7 @@ const Productmanagement = () => {
       setStockUpdate(stock);
       setCategoryUpdate(category);
       setDescriptionUpdate(description);
+      setPhotoUpdate(photo);
     }
   }, [data]);
 
@@ -113,7 +116,7 @@ const Productmanagement = () => {
             <section className="bg-white shadow-md rounded-lg p-6 mb-6 md:mb-12 lg:mb-16">
               <div className="flex flex-col md:flex-row items-center">
                 <img
-                  src={`${server}/${photo}`}
+                  src={photoUpdate}
                   alt="Product"
                   className="w-full md:w-1/3 lg:w-1/4 rounded-lg mb-4 md:mb-0 object-cover"
                 />

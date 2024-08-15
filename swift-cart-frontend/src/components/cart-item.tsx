@@ -1,6 +1,5 @@
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { server } from "../redux/store";
 import { CartItem as CartItemType } from "../types/types";
 
 type CartItemProps = {
@@ -20,7 +19,7 @@ const CartItem = ({
   return (
     <div className="flex items-center justify-between border-b py-6">
       <img
-        src={`${server}/${photo}`}
+        src={`${photo}`}
         alt={name}
         className="w-32 h-32 object-cover rounded-lg"
       />

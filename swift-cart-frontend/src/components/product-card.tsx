@@ -1,4 +1,3 @@
-import { server } from "../redux/store";
 import { CartItem } from "../types/types";
 import { Link } from "react-router-dom";
 
@@ -30,7 +29,7 @@ const ProductCard = ({
         className="w-full h-48 overflow-hidden rounded-t-lg"
       >
         <img
-          src={`${server}/${photo}`}
+          src={`${photo}`}
           alt={name}
           className="object-cover w-full h-full"
         />

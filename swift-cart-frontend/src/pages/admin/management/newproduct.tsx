@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 import { useSelector } from "react-redux";
@@ -37,23 +38,45 @@ const NewProduct = () => {
     }
   };
 
+  const uploadImageToImgBB = async (imageFile: File) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const response = await axios.post(
+        `https://api.imgbb.com/1/upload?key=a02776d30dbf5d3144e198ba292d1b5f`,
+        formData
+      );
+
+      return response.data.data.url;
+    } catch (error) {
+      console.error("Error uploading to ImgBB", error);
+      throw error;
+    }
+  };
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !price || stock < 0 || !category || !photo || !description)
       return;
 
-    const formData = new FormData();
+    try {
+      const photoUrl = await uploadImageToImgBB(photo);
+      const formData = new FormData();
 
-    formData.set("name", name);
-    formData.set("price", price.toString());
-    formData.set("stock", stock.toString());
-    formData.set("photo", photo);
-    formData.set("category", category);
-    formData.set("description", description);
+      formData.set("name", name);
+      formData.set("price", price.toString());
+      formData.set("stock", stock.toString());
+      formData.set("photo", photoUrl);
+      formData.set("category", category);
+      formData.set("description", description);
 
-    const res = await newProduct({ id: user?._id!, formData });
+      const res = await newProduct({ id: user?._id!, formData });
 
-    responseToast(res, navigate, "/admin/product");
+      responseToast(res, navigate, "/admin/product");
+    } catch (error) {
+      console.error("Error uploading product", error);
+    }
   };
 
   return (
