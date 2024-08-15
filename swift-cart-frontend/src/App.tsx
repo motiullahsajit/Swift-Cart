@@ -5,7 +5,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
-import "./App.css";
 import Loader from "./components/loader";
 import Header from "./components/header";
 import { Toaster } from "react-hot-toast";
@@ -17,6 +16,7 @@ import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer-types";
 import ProtectedRoute from "./components/protected-route";
 import Footer from "./components/Footer";
+import "./App.css";
 
 const Home = lazy(() => import("./pages/home"));
 const AllProducts = lazy(() => import("./pages/allProducts"));
