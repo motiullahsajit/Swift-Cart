@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { AiFillFileText } from "react-icons/ai";
-import { FaChartBar, FaChartLine, FaChartPie } from "react-icons/fa";
+import {
+  FaChartBar,
+  FaChartLine,
+  FaChartPie,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
 import {
@@ -10,10 +15,16 @@ import {
 } from "react-icons/ri";
 import { Link, Location, useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
+import { useDispatch } from "react-redux";
+import { signOut } from "firebase/auth";
+import { userNotExits } from "../../redux/reducer/userReducer";
+import toast from "react-hot-toast";
+import { auth } from "../../firebase";
+import { CgWebsite } from "react-icons/cg";
 
 const AdminSidebar = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [phoneActive, setPhoneActive] = useState<boolean>(
     window.innerWidth < 1100
@@ -30,6 +41,16 @@ const AdminSidebar = () => {
       window.removeEventListener("resize", resizeHandler);
     };
   }, []);
+
+  const logoutHandler = async () => {
+    try {
+      await signOut(auth);
+      dispatch(userNotExits());
+      toast.success("Sign Out Successfully");
+    } catch (error) {
+      toast.error("Sign Out Failed");
+    }
+  };
 
   return (
     <>
@@ -53,7 +74,7 @@ const AdminSidebar = () => {
             : {}
         }
       >
-        <DivOne location={location} />
+        <DivOne location={location} logoutHandler={logoutHandler} />
 
         {phoneActive && (
           <button id="close-sidebar" onClick={() => setShowModal(false)}>
@@ -65,9 +86,21 @@ const AdminSidebar = () => {
   );
 };
 
-const DivOne = ({ location }: { location: Location }) => (
+const DivOne = ({
+  location,
+  logoutHandler,
+}: {
+  location: Location;
+  logoutHandler: () => void;
+}) => (
   <div>
+    <h3 className="text-2xl font-extrabold text-[#1B5A7D] text-center mb-6">
+      <span className="block">Swift Cart</span>
+      <span className="text-lg font-medium text-gray-600">Admin Panel</span>
+    </h3>
+
     <ul>
+      <Li url="/" text="Visit Site" Icon={CgWebsite} location={location} />
       <Li
         url="/admin/dashboard"
         text="Dashboard"
@@ -76,13 +109,13 @@ const DivOne = ({ location }: { location: Location }) => (
       />
       <Li
         url="/admin/product"
-        text="Product"
+        text="Products"
         Icon={RiShoppingBag3Fill}
         location={location}
       />
       <Li
         url="/admin/customer"
-        text="Customer"
+        text="Customers"
         Icon={IoIosPeople}
         location={location}
       />
@@ -94,19 +127,19 @@ const DivOne = ({ location }: { location: Location }) => (
       />
       <Li
         url="/admin/chart/bar"
-        text="Bar"
+        text="Order & Customer"
         Icon={FaChartBar}
         location={location}
       />
       <Li
         url="/admin/chart/pie"
-        text="Pie"
+        text="Ratio"
         Icon={FaChartPie}
         location={location}
       />
       <Li
         url="/admin/chart/line"
-        text="Line"
+        text="Growth"
         Icon={FaChartLine}
         location={location}
       />
@@ -115,6 +148,13 @@ const DivOne = ({ location }: { location: Location }) => (
         text="Manage Coupons"
         Icon={RiCoupon3Fill}
         location={location}
+      />
+      <Li
+        url="/"
+        text="Sign Out"
+        Icon={FaSignOutAlt}
+        location={location}
+        logoutHandler={logoutHandler}
       />
     </ul>
   </div>
@@ -125,20 +165,21 @@ interface LiProps {
   text: string;
   location: Location;
   Icon: IconType;
+  logoutHandler?: () => void;
 }
-const Li = ({ url, text, location, Icon }: LiProps) => (
+const Li = ({ url, text, location, Icon, logoutHandler }: LiProps) => (
   <li
     style={{
-      backgroundColor: location.pathname.includes(url)
-        ? "rgba(0,115,255,0.1)"
-        : "white",
+      backgroundColor:
+        location.pathname === url ? "rgba(0,115,255,0.1)" : "white",
     }}
   >
     <Link
       to={url}
       style={{
-        color: location.pathname.includes(url) ? "rgb(0,115,255)" : "black",
+        color: "#1B5A7D",
       }}
+      onClick={logoutHandler}
     >
       <Icon />
       {text}

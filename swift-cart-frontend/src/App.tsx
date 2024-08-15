@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import "./App.css";
 import Loader from "./components/loader";
@@ -33,9 +38,7 @@ const Transaction = lazy(() => import("./pages/admin/transaction"));
 const Barcharts = lazy(() => import("./pages/admin/charts/barcharts"));
 const Piecharts = lazy(() => import("./pages/admin/charts/piecharts"));
 const Linecharts = lazy(() => import("./pages/admin/charts/linecharts"));
-const Coupon = lazy(() => import("./pages/admin/apps/coupon"));
-const Stopwatch = lazy(() => import("./pages/admin/apps/stopwatch"));
-const Toss = lazy(() => import("./pages/admin/apps/toss"));
+const Coupon = lazy(() => import("./pages/admin/coupon"));
 const NewProduct = lazy(() => import("./pages/admin/management/newproduct"));
 const ProductManagement = lazy(
   () => import("./pages/admin/management/productmanagement")
@@ -60,73 +63,83 @@ const App = () => {
     });
   }, []);
 
+  const AppRoutes = () => {
+    const location = useLocation();
+
+    const isAdminRoute = () => {
+      return location.pathname.startsWith("/admin");
+    };
+
+    return (
+      <>
+        {!isAdminRoute() && <Header user={user} />}
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/products" element={<AllProducts />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute isAuthenticated={user ? false : true}>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* LoggedIn users route */}
+            <Route
+              element={<ProtectedRoute isAuthenticated={user ? true : false} />}
+            >
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/order/:id" element={<OrderDetails />} />
+              <Route path="/pay" element={<Checkout />} />
+            </Route>
+
+            {/* admin routes */}
+            <Route
+              element={
+                <ProtectedRoute
+                  isAuthenticated={true}
+                  adminOnly={true}
+                  admin={user?.role === "admin"}
+                />
+              }
+            >
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/product" element={<Products />} />
+              <Route path="/admin/customer" element={<Customers />} />
+              <Route path="/admin/transaction" element={<Transaction />} />
+              <Route path="/admin/chart/bar" element={<Barcharts />} />
+              <Route path="/admin/chart/pie" element={<Piecharts />} />
+              <Route path="/admin/chart/line" element={<Linecharts />} />
+              <Route path="/admin/app/coupon" element={<Coupon />} />
+              <Route path="/admin/product/new" element={<NewProduct />} />
+              <Route
+                path="/admin/product/:id"
+                element={<ProductManagement />}
+              />
+              <Route
+                path="/admin/transaction/:id"
+                element={<TransactionManagement />}
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        {!isAdminRoute() && <Footer />}
+      </>
+    );
+  };
+
   return loading ? (
     <Loader />
   ) : (
     <Router>
-      <Header user={user} />
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/products" element={<AllProducts />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          {/* Not LoggedIn route  */}
-          <Route
-            path="/login"
-            element={
-              <ProtectedRoute isAuthenticated={user ? false : true}>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          {/* LoggedIn users route */}
-          <Route
-            element={<ProtectedRoute isAuthenticated={user ? true : false} />}
-          >
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/order/:id" element={<OrderDetails />} />
-            <Route path="/pay" element={<Checkout />} />
-          </Route>
-          {/* admin routes */}
-          <Route
-            element={
-              <ProtectedRoute
-                isAuthenticated={true}
-                adminOnly={true}
-                admin={user?.role === "admin"}
-              />
-            }
-          >
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/product" element={<Products />} />
-            <Route path="/admin/customer" element={<Customers />} />
-            <Route path="/admin/transaction" element={<Transaction />} />
-            {/* Charts */}
-            <Route path="/admin/chart/bar" element={<Barcharts />} />
-            <Route path="/admin/chart/pie" element={<Piecharts />} />
-            <Route path="/admin/chart/line" element={<Linecharts />} />
-            {/* Apps */}
-            <Route path="/admin/app/coupon" element={<Coupon />} />
-            <Route path="/admin/app/stopwatch" element={<Stopwatch />} />
-            <Route path="/admin/app/toss" element={<Toss />} />
-
-            {/* Management */}
-            <Route path="/admin/product/new" element={<NewProduct />} />
-
-            <Route path="/admin/product/:id" element={<ProductManagement />} />
-
-            <Route
-              path="/admin/transaction/:id"
-              element={<TransactionManagement />}
-            />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-      <Footer />
+      <AppRoutes />
       <Toaster position="bottom-center" />
     </Router>
   );

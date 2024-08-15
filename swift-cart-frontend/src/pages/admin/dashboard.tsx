@@ -35,7 +35,7 @@ const Dashboard = () => {
                 amount={true}
                 value={stats.count.revenue}
                 heading="Revenue"
-                color="rgb(0, 115, 255)"
+                color="#1B5A7D"
               />
               <WidgetItem
                 percent={stats.changePercent.user}
@@ -67,7 +67,7 @@ const Dashboard = () => {
                   data_2={stats.chart.order}
                   title_1="Revenue"
                   title_2="Transaction"
-                  bgColor_1="rgb(0, 115, 255)"
+                  bgColor_1="#1B5A7D"
                   bgColor_2="rgba(53, 162, 235, 0.8)"
                 />
               </div>

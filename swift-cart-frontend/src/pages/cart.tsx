@@ -110,7 +110,7 @@ const Cart = () => {
         <div className="mt-8">
           <input
             type="text"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#EDA415]"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1c3747]"
             placeholder="Coupon Code"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
@@ -121,8 +121,9 @@ const Cart = () => {
                 ${discount.toFixed(2)} off using <code>{couponCode}</code>
               </span>
             ) : (
-              <span className="text-red-600 mt-2 block">
-                Invalid Coupon Code <VscError />
+              <span className="text-red-600 mt-2 flex items-center">
+                <VscError />
+                Invalid Coupon Code
               </span>
             ))}
         </div>

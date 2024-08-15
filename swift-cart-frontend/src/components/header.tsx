@@ -13,8 +13,9 @@ import { auth } from "../firebase";
 import { FaBoxArchive } from "react-icons/fa6";
 import logo from "../assets/images/logo.png";
 import { RiDashboardFill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userNotExits } from "../redux/reducer/userReducer";
+import { CartReducerInitialState } from "../types/reducer-types";
 
 interface PropsType {
   user: User | null;
@@ -23,6 +24,10 @@ interface PropsType {
 const Header = ({ user }: PropsType) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { cartItems } = useSelector(
+    (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+  );
 
   const logoutHandler = async () => {
     try {
@@ -57,9 +62,14 @@ const Header = ({ user }: PropsType) => {
         <Link
           onClick={() => setIsOpen(false)}
           to={"/cart"}
-          className="flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
+          className="relative flex items-center text-white text-xl gap-2 hover:bg-[#1c3747] px-3 py-2 rounded-lg"
         >
           <FaShoppingCart />
+          {cartItems.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-[#fff] text-[#1c3747] text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+              {cartItems.length}
+            </span>
+          )}
         </Link>
         {user?._id ? (
           <>

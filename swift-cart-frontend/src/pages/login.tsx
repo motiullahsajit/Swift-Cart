@@ -8,9 +8,11 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { MessageResponse } from "../types/api-types";
 import { userExits, userNotExits } from "../redux/reducer/userReducer";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [gender, setGender] = useState("");
   const [date, setDate] = useState("");
   const [isNewUser, setIsNewUser] = useState(false);
@@ -65,6 +67,12 @@ const Login = () => {
         toast.success(res.data.message);
         const data = await getUser(user.uid);
         dispatch(userExits(data.user));
+
+        if (data.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         const error = res.error as FetchBaseQueryError;
         const message = (error.data as MessageResponse).message;
@@ -83,9 +91,9 @@ const Login = () => {
         name: demoUser.displayName!,
         email: demoUser.email!,
         photo: demoUser.photoURL!,
-        gender: isNewUser ? gender : "",
+        gender: "male",
         role: "user",
-        dob: isNewUser ? date : "",
+        dob: "02/12/2017",
         _id: demoUser.uid!,
       });
 
@@ -111,9 +119,9 @@ const Login = () => {
         name: demoAdmin.displayName!,
         email: demoAdmin.email!,
         photo: demoAdmin.photoURL!,
-        gender: isNewUser ? gender : "",
-        role: "user",
-        dob: isNewUser ? date : "",
+        gender: "male",
+        role: "admin",
+        dob: "02/12/2017",
         _id: demoAdmin.uid!,
       });
 
@@ -121,6 +129,7 @@ const Login = () => {
         toast.success(res.data.message);
         const data = await getUser(demoAdmin.uid);
         dispatch(userExits(data.user));
+        await navigate("/admin/dashboard");
       } else {
         const error = res.error as FetchBaseQueryError;
         const message = (error.data as MessageResponse).message;
@@ -216,6 +225,10 @@ const Login = () => {
             <span className="font-medium">Demo Admin Sign In</span>
           </button>
         </div>
+
+        <p className="text-sm text-gray-600 text-center mt-4">
+          Note: Demo users will be removed on page reload for security purposes.
+        </p>
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import AdminSidebar from "../../../components/admin/AdminSidebar";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 import toast from "react-hot-toast";
-import { server } from "../../../redux/store";
+import { server } from "../../redux/store";
 import { FiTrash2 } from "react-icons/fi";
-import { Skeleton } from "../../../components/loader";
+import { Skeleton } from "../../components/loader";
 import { useSelector } from "react-redux";
-import { UserReducerInitialState } from "../../../types/reducer-types";
+import { UserReducerInitialState } from "../../types/reducer-types";
 
 interface Coupon {
   _id: string;
