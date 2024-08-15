@@ -6,5 +6,6 @@
     "moduleResolution": "NodeNext",
     "outDir": "dist",
     "strict": true
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

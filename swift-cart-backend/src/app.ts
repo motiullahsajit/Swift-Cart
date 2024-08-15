@@ -5,7 +5,7 @@ import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import morgan from "morgan";
 import cors from "cors";
-// Importing routes
+
 import userRoute from "./routes/user.js";
 import productRoute from "./routes/product.js";
 import orderRoute from "./routes/order.js";
@@ -47,3 +47,5 @@ app.use(errorMiddleware);
 app.listen(port, () => {
   console.log(`Express Server listening on port ${port}`);
 });
+
+export default app;
