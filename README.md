@@ -57,56 +57,16 @@ README.md
 
 Here are some screenshots of the Swift Cart application:
 
-- **Auth Page**
-  ![Auth Page](overview/auth.png)
-
-- **Cart Page**
-  ![Cart Page](overview/cart.png)
+- **Home Page**
+  ![Home Page](overview/home.png)
 
 - **Dashboard Page**
   ![Dashboard Page](overview/dashboard.png)
 
-- **Home Page**
-  ![Home Page](overview/home.png)
-
 - **Statistics Page**
   ![Statistics Page](overview/stats.png)
 
-## Installation
-
-To set up the project locally, follow these steps:
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/swift-cart.git
-   ```
-
-````
-
-2. **Navigate to the backend directory and install dependencies:**
-
-   ```bash
-   cd swift-cart-backend
-   npm install
-   ```
-
-3. **Navigate to the frontend directory and install dependencies:**
-
-   ```bash
-   cd ../swift-cart-frontend
-   npm install
-   ```
-
-4. **Start the backend server:**
-
-   ```bash
-   cd ../swift-cart-backend
-   npm start
-   ```
-
-5. **Start the frontend development server:**
-   ```bash
-   cd ../swift-cart-frontend
-   npm start
-   ```
-````
+- **Cart Page**
+  ![Cart Page](overview/cart.png)
+- **Auth Page**
+  ![Auth Page](overview/auth.png)
