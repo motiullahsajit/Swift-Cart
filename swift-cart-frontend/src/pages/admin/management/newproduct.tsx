@@ -80,12 +80,14 @@ const NewProduct = () => {
   };
 
   return (
-    <div className="admin-container bg-gray-100">
+    <div className="admin-container bg-gray-100 min-h-screen">
       <AdminSidebar />
-      <main className="product-management">
-        <article className="bg-white shadow-md rounded p-6 max-w-lg mx-auto">
-          <form onSubmit={submitHandler} className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold text-center mb-4">New Product</h2>
+      <main className="product-management flex flex-col items-center justify-center py-10">
+        <article className="bg-white shadow-md rounded p-6 max-w-lg mx-auto w-full">
+          <form onSubmit={submitHandler} className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-center mb-4 text-[#1B5A7D]">
+              New Product
+            </h2>
             <div className="flex flex-col gap-1">
               <label className="text-gray-700">Name</label>
               <input
@@ -127,7 +129,7 @@ const NewProduct = () => {
                 placeholder="e.g., laptop, camera"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0f628e]"
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -137,7 +139,7 @@ const NewProduct = () => {
                 placeholder="Product Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0f628e]"
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -146,7 +148,7 @@ const NewProduct = () => {
                 required
                 type="file"
                 onChange={changeImageHandler}
-                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0f628e]"
               />
             </div>
 
@@ -159,7 +161,7 @@ const NewProduct = () => {
             )}
             <button
               type="submit"
-              className="bg-blue-600 text-white rounded py-2 mt-4 hover:bg-blue-700 transition duration-200"
+              className="bg-[#1B5A7D] hover:bg-[#0f628e] text-white rounded py-2 mt-4 transition duration-200"
             >
               Create
             </button>

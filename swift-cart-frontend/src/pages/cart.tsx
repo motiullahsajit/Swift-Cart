@@ -70,8 +70,8 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="flex flex-col lg:flex-row max-w-screen-xl mx-auto p-8 lg:space-x-12">
-      <main className="flex-1">
+    <div className="flex flex-col lg:flex-row max-w-screen-xl mx-auto p-4 lg:space-x-12">
+      <main className="flex-1 mb-8 lg:mb-0">
         {cartItems.length > 0 ? (
           cartItems.map((i, idx) => (
             <CartItemCard
@@ -83,34 +83,34 @@ const Cart = () => {
             />
           ))
         ) : (
-          <h1 className="text-center text-2xl font-semibold text-gray-600 mt-4">
+          <h1 className="text-center text-xl font-semibold text-gray-600 mt-4">
             No Items Added
           </h1>
         )}
       </main>
-      <aside className="lg:w-1/3 bg-white p-8 rounded-lg shadow-2xl">
-        <div className="space-y-6">
-          <p className="flex justify-between text-xl">
+      <aside className="lg:w-1/3 bg-white p-6 rounded-lg shadow-2xl space-y-4">
+        <div className="space-y-2">
+          <p className="flex justify-between text-lg">
             <span>Subtotal:</span> <span>${subtotal.toFixed(2)}</span>
           </p>
-          <p className="flex justify-between text-xl">
+          <p className="flex justify-between text-lg">
             <span>Shipping Charges:</span>{" "}
             <span>${shippingCharges.toFixed(2)}</span>
           </p>
-          <p className="flex justify-between text-xl">
+          <p className="flex justify-between text-lg">
             <span>Tax:</span> <span>${tax.toFixed(2)}</span>
           </p>
-          <p className="flex justify-between text-xl text-red-600">
+          <p className="flex justify-between text-lg text-red-600">
             <span>Discount:</span> <em>- ${discount.toFixed(2)}</em>
           </p>
-          <p className="flex justify-between text-2xl font-bold">
+          <p className="flex justify-between text-xl font-bold">
             <span>Total:</span> <span>${total.toFixed(2)}</span>
           </p>
         </div>
-        <div className="mt-8">
+        <div className="mt-6">
           <input
             type="text"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1c3747]"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1c3747]"
             placeholder="Coupon Code"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
@@ -122,7 +122,7 @@ const Cart = () => {
               </span>
             ) : (
               <span className="text-red-600 mt-2 flex items-center">
-                <VscError />
+                <VscError className="mr-1" />
                 Invalid Coupon Code
               </span>
             ))}
@@ -130,7 +130,7 @@ const Cart = () => {
         {cartItems.length > 0 && (
           <Link
             to="/shipping"
-            className="block mt-8 text-center bg-[#1B5A7D] hover:bg-[#0f628e] text-white font-semibold py-3 rounded-lg transition-all duration-300"
+            className="block mt-8 text-center bg-[#1B5A7D] hover:bg-[#0f628e] text-white font-semibold py-2 rounded-lg transition-all duration-300"
           >
             Checkout
           </Link>

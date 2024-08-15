@@ -8,7 +8,7 @@
 .create-product-btn {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  top: 1.5rem;
   width: 2.5rem;
   height: 2.5rem;
   display: flex;
@@ -81,121 +81,61 @@
     }
 
     > strong {
-      font-weight: 300;
-    }
-
-    > span {
+      font-weight: 500;
+      padding: 0.2rem;
       position: absolute;
-      right: 2rem;
       top: 2rem;
-    }
-
-    > p {
-      text-align: center;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    > h3 {
-      text-align: center;
-      font-size: 2rem;
-    }
-  }
-
-  > article {
-    height: 85vh;
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.216);
-    position: relative;
-
-    > form {
-      @include flex(column, unset, center, 2rem);
-      > h2 {
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-
-      > img {
-        @include square(5rem);
-        object-fit: cover;
-        border-radius: 5px;
-      }
-
-      > div {
-        width: 100%;
-        position: relative;
-        > label {
-          position: absolute;
-          left: 0;
-          top: -1.5rem;
-        }
-
-        > input {
-          @include inputStyle(
-            100%,
-            1rem,
-            unset,
-            1px solid rgba(13, 13, 13, 0.196)
-          );
-          border-radius: 5px;
-        }
-      }
-
-      > button {
-        padding: 1rem;
-        border: none;
-        background-color: #1b5a7d;
-        color: white;
-        width: 100%;
-        border-radius: 5px;
-        font-size: 1.1rem;
-        cursor: pointer;
-      }
-    }
-  }
-
-  .shipping-info-card {
-    > h1 {
-      text-align: center;
-      @include heading(2px);
-    }
-    > h5 {
-      margin: 2rem 0 0 0.5rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    > p {
-      margin: 0.5rem;
-    }
-    > .shipping-btn {
-      margin: 2rem 0;
-      padding: 1rem;
-      border: none;
-      background-color: #1b5a7d;
-      color: white;
-      width: 100%;
+      right: 2rem;
       border-radius: 5px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      &:hover {
-        opacity: 0.8;
+      background-color: #005777;
+      color: white;
+    }
+
+    > article {
+      > form {
+        > div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.5rem;
+
+          > span {
+            color: #006691;
+          }
+
+          > input,
+          select,
+          textarea {
+            outline: 0;
+            width: 100%;
+            padding: 0.5rem;
+            font-weight: 400;
+            border-radius: 5px;
+            border: 1px solid rgb(94, 93, 93);
+          }
+
+          > .inputs-flex {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+          }
+        }
+
+        .photo-img {
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+
+      @media (max-width: 400px) {
+        padding: 1rem;
       }
     }
   }
 }
 
-.transaction-product-card {
-  @include flex(row, unset, center, 1rem);
-
-  > img {
-    @include square(4rem);
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  > span {
-    margin-left: auto;
+@media (max-width: 800px) {
+  .dashboard-product-box {
+    @include square(100%);
   }
 }

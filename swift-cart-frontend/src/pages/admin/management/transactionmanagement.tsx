@@ -77,71 +77,68 @@ const TransactionManagement = () => {
   if (isError) return <Navigate to={"/404"} />;
 
   return (
-    <div className="admin-container">
+    <div className="admin-container flex">
       <AdminSidebar />
-      <main className="product-management">
+      <main className="flex-1 p-6">
         {isLoading ? (
           <Skeleton length={30} />
         ) : (
-          <>
-            <section
-              style={{
-                padding: "2rem",
-              }}
-            >
-              <h2>Order Items</h2>
-
+          <div className="flex flex-col lg:flex-row lg:space-x-8">
+            <section className="bg-white p-8 shadow-lg rounded-lg flex-1">
+              <h2 className="text-center text-2xl font-bold mb-6">
+                Order Items
+              </h2>
               {orderItems.map((i) => (
-                <ProductCard
-                  key={i._id}
-                  name={i.name}
-                  photo={`${i.photo}`}
-                  productId={i.productId}
-                  _id={i._id}
-                  quantity={i.quantity}
-                  price={i.price}
-                />
+                <ProductCard key={i._id} {...i} />
               ))}
             </section>
 
-            <article className="shipping-info-card">
-              <button className="product-delete-btn" onClick={deleteHandler}>
-                <FaTrash />
-              </button>
-              <h1>Order Info</h1>
-              <h5>User Info</h5>
+            <article className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md flex-1 lg:mt-0">
+              <div className="flex justify-end mb-4">
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={deleteHandler}
+                >
+                  <FaTrash />
+                </button>
+              </div>
+              <h1 className="text-2xl font-semibold mb-4">Order Info</h1>
+              <h5 className="font-medium text-lg mb-2">User Info</h5>
               <p>Name: {name}</p>
               <p>
                 Address:{" "}
                 {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
               </p>
-              <h5>Amount Info</h5>
-              <p>Subtotal: {subtotal}</p>
-              <p>Shipping Charges: {shippingCharges}</p>
-              <p>Tax: {tax}</p>
-              <p>Discount: {discount}</p>
-              <p>Total: {total}</p>
+              <h5 className="font-medium text-lg mb-2">Amount Info</h5>
+              <p>Subtotal: ${subtotal.toFixed(2)}</p>
+              <p>Shipping Charges: ${shippingCharges.toFixed(2)}</p>
+              <p>Tax: ${tax.toFixed(2)}</p>
+              <p>Discount: ${discount.toFixed(2)}</p>
+              <p>Total: ${total.toFixed(2)}</p>
 
-              <h5>Status Info</h5>
+              <h5 className="font-medium text-lg mb-2">Status Info</h5>
               <p>
                 Status:{" "}
                 <span
                   className={
                     status === "Delivered"
-                      ? "purple"
+                      ? "text-purple-500"
                       : status === "Shipped"
-                      ? "green"
-                      : "red"
+                      ? "text-green-500"
+                      : "text-red-500"
                   }
                 >
                   {status}
                 </span>
               </p>
-              <button className="shipping-btn" onClick={updateHandler}>
+              <button
+                className="mt-6 bg-[#1B5A7D] hover:bg-[#1c3747] text-white py-2 px-4 rounded transition duration-300"
+                onClick={updateHandler}
+              >
                 Process Status
               </button>
             </article>
-          </>
+          </div>
         )}
       </main>
     </div>
@@ -155,11 +152,13 @@ const ProductCard = ({
   quantity,
   productId,
 }: OrderItem) => (
-  <div className="transaction-product-card">
-    <img src={photo} alt={name} />
-    <Link to={`/product/${productId}`}>{name}</Link>
-    <span>
-      ₹{price} X {quantity} = ₹{price * quantity}
+  <div className="flex items-center justify-between p-4 border-b">
+    <img src={photo} alt={name} className="w-20 h-20 object-cover rounded-lg" />
+    <Link to={`/product/${productId}`} className="text-lg font-medium">
+      {name}
+    </Link>
+    <span className="text-gray-600">
+      ${price} X {quantity} = ${(price * quantity).toFixed(2)}
     </span>
   </div>
 );
