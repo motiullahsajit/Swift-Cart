@@ -84,7 +84,10 @@ const Customers = () => {
           gender: i.gender,
           role: i.role,
           action: (
-            <button onClick={() => deleteHandler(i._id)}>
+            <button
+              onClick={() => deleteHandler(i._id)}
+              className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-200"
+            >
               <FaTrash />
             </button>
           ),
@@ -101,9 +104,11 @@ const Customers = () => {
   )();
 
   return (
-    <div className="admin-container">
+    <div className="admin-container flex flex-col md:flex-row p-2">
       <AdminSidebar />
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+      <main className="flex-1 p-2">
+        {isLoading ? <Skeleton length={20} /> : Table}
+      </main>
     </div>
   );
 };

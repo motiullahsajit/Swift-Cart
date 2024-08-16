@@ -77,15 +77,15 @@ const TransactionManagement = () => {
   if (isError) return <Navigate to={"/404"} />;
 
   return (
-    <div className="admin-container flex">
+    <div className="admin-container flex min-h-screen">
       <AdminSidebar />
-      <main className="flex-1 p-6">
+      <main className="product-management flex-1 p-6 bg-gray-50">
         {isLoading ? (
           <Skeleton length={30} />
         ) : (
           <div className="flex flex-col lg:flex-row lg:space-x-8">
-            <section className="bg-white p-8 shadow-lg rounded-lg flex-1">
-              <h2 className="text-center text-2xl font-bold mb-6">
+            <section className="bg-white p-8 shadow-lg rounded-lg flex-1 mb-8 lg:mb-0">
+              <h2 className="text-center text-2xl font-bold mb-6 text-[#1B5A7D]">
                 Order Items
               </h2>
               {orderItems.map((i) => (
@@ -93,46 +93,64 @@ const TransactionManagement = () => {
               ))}
             </section>
 
-            <article className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md flex-1 lg:mt-0">
+            <article className="p-6 bg-white rounded-lg shadow-md flex-1">
               <div className="flex justify-end mb-4">
                 <button
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 transition duration-200"
                   onClick={deleteHandler}
+                  aria-label="Delete Order"
                 >
                   <FaTrash />
                 </button>
               </div>
-              <h1 className="text-2xl font-semibold mb-4">Order Info</h1>
-              <h5 className="font-medium text-lg mb-2">User Info</h5>
-              <p>Name: {name}</p>
-              <p>
-                Address:{" "}
-                {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
-              </p>
-              <h5 className="font-medium text-lg mb-2">Amount Info</h5>
-              <p>Subtotal: ${subtotal.toFixed(2)}</p>
-              <p>Shipping Charges: ${shippingCharges.toFixed(2)}</p>
-              <p>Tax: ${tax.toFixed(2)}</p>
-              <p>Discount: ${discount.toFixed(2)}</p>
-              <p>Total: ${total.toFixed(2)}</p>
-
-              <h5 className="font-medium text-lg mb-2">Status Info</h5>
-              <p>
-                Status:{" "}
-                <span
-                  className={
-                    status === "Delivered"
-                      ? "text-purple-500"
-                      : status === "Shipped"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }
-                >
-                  {status}
-                </span>
-              </p>
+              <h1 className="text-2xl font-semibold mb-6 text-[#1B5A7D]">
+                Order Info
+              </h1>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div>
+                  <h5 className="font-medium text-lg mb-3 text-[#005777]">
+                    User Info
+                  </h5>
+                  <p className="mb-2">Name: {name}</p>
+                  <p className="mb-5">
+                    Address:{" "}
+                    {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
+                  </p>
+                </div>
+                <div>
+                  <h5 className="font-medium text-lg mb-3 text-[#005777]">
+                    Amount Info
+                  </h5>
+                  <p className="mb-2">Subtotal: ${subtotal.toFixed(2)}</p>
+                  <p className="mb-2">
+                    Shipping Charges: ${shippingCharges.toFixed(2)}
+                  </p>
+                  <p className="mb-2">Tax: ${tax.toFixed(2)}</p>
+                  <p className="mb-2">Discount: ${discount.toFixed(2)}</p>
+                  <p className="mb-5">Total: ${total.toFixed(2)}</p>
+                </div>
+              </div>
+              <div className="mt-6">
+                <h5 className="font-medium text-lg mb-3 text-[#005777]">
+                  Status Info
+                </h5>
+                <p>
+                  Status:{" "}
+                  <span
+                    className={
+                      status === "Delivered"
+                        ? "text-purple-500"
+                        : status === "Shipped"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }
+                  >
+                    {status}
+                  </span>
+                </p>
+              </div>
               <button
-                className="mt-6 bg-[#1B5A7D] hover:bg-[#1c3747] text-white py-2 px-4 rounded transition duration-300"
+                className="mt-8 bg-[#1B5A7D] hover:bg-[#1c3747] text-white py-2 px-6 rounded transition duration-300"
                 onClick={updateHandler}
               >
                 Process Status
@@ -152,13 +170,16 @@ const ProductCard = ({
   quantity,
   productId,
 }: OrderItem) => (
-  <div className="flex items-center justify-between p-4 border-b">
+  <div className="flex items-center justify-between p-4 border-b last:border-0 bg-gray-50 rounded-lg shadow-md">
     <img src={photo} alt={name} className="w-20 h-20 object-cover rounded-lg" />
-    <Link to={`/product/${productId}`} className="text-lg font-medium">
+    <Link
+      to={`/product/${productId}`}
+      className="text-lg font-medium text-[#1B5A7D] hover:underline"
+    >
       {name}
     </Link>
     <span className="text-gray-600">
-      ${price} X {quantity} = ${(price * quantity).toFixed(2)}
+      ${price} x {quantity} = ${(price * quantity).toFixed(2)}
     </span>
   </div>
 );

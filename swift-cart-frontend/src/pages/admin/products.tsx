@@ -57,11 +57,24 @@ const Products = () => {
     if (data) {
       setRows(
         data.products.map((i) => ({
-          photo: <img src={`${i.photo}`} />,
+          photo: (
+            <img
+              src={`${i.photo}`}
+              alt={i.name}
+              className="w-16 h-16 object-cover rounded-lg"
+            />
+          ),
           name: i.name,
           price: i.price,
           stock: i.stock,
-          action: <Link to={`/admin/product/${i._id}`}>Manage</Link>,
+          action: (
+            <Link
+              to={`/admin/product/${i._id}`}
+              className="bg-[#1B5A7D] text-white py-1 px-3 rounded hover:bg-[#1c3747] transition duration-200"
+            >
+              Manage
+            </Link>
+          ),
         }))
       );
     }
@@ -76,12 +89,17 @@ const Products = () => {
   )();
 
   return (
-    <div className="admin-container relative">
+    <div className="admin-container flex flex-col md:flex-row p-2">
       <AdminSidebar />
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
-      <Link to="/admin/product/new" className="create-product-btn">
-        <FaPlus />
-      </Link>
+      <main className="flex-1 p-2">
+        {isLoading ? <Skeleton length={20} /> : Table}
+        <Link
+          to="/admin/product/new"
+          className="create-product-btn fixed bottom-4 right-4 bg-[#1B5A7D] text-white p-3 rounded-full shadow-lg"
+        >
+          <FaPlus className="text-xl" />
+        </Link>
+      </main>
     </div>
   );
 };

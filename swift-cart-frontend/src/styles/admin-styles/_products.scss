@@ -1,9 +1,9 @@
-.dashboard-product-box {
-  background-color: white;
-  padding: 2rem;
-  overflow: auto;
-  @include square(100%);
-}
+// .dashboard-product-box {
+//   background-color: white;
+//   padding: 2rem;
+//   overflow: auto;
+//   @include square(100%);
+// }
 
 .create-product-btn {
   position: fixed;
@@ -134,8 +134,8 @@
   }
 }
 
-@media (max-width: 800px) {
-  .dashboard-product-box {
-    @include square(100%);
-  }
-}
+// @media (max-width: 800px) {
+//   .dashboard-product-box {
+//     @include square(100%);
+//   }
+// }

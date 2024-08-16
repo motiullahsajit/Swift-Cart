@@ -66,18 +66,25 @@ const Transaction = () => {
           quantity: i.orderItems.length,
           status: (
             <span
-              className={
+              className={`${
                 i.status === "Processing"
-                  ? "red"
+                  ? "text-red-500"
                   : i.status === "Shipped"
-                  ? "green"
-                  : "purple"
-              }
+                  ? "text-green-500"
+                  : "text-purple-500"
+              }`}
             >
               {i.status}
             </span>
           ),
-          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+          action: (
+            <Link
+              to={`/admin/transaction/${i._id}`}
+              className="bg-[#1B5A7D] text-white py-1 px-3 rounded hover:bg-[#1c3747] transition duration-200"
+            >
+              Manage
+            </Link>
+          ),
         }))
       );
     }
@@ -91,9 +98,11 @@ const Transaction = () => {
     rows.length > 6
   )();
   return (
-    <div className="admin-container">
+    <div className="admin-container flex flex-col md:flex-row p-2">
       <AdminSidebar />
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+      <main className="flex-1 p-2">
+        {isLoading ? <Skeleton length={20} /> : Table}
+      </main>
     </div>
   );
 };

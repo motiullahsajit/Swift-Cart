@@ -41,55 +41,82 @@ function TableHOC<T extends Object>(
     } = useTable(options, useSortBy, usePagination);
 
     return (
-      <div className={containerClassname}>
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+      <div className={`${containerClassname} w-full`}>
+        <h2 className="text-2xl md:text-4xl font-semibold text-center text-[#1B5A7D] my-4 md:my-8">
           {heading}
         </h2>
-
-        <table className="table" {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render("Header")}
-                    {column.isSorted && (
-                      <span>
-                        {" "}
-                        {column.isSortedDesc ? (
-                          <AiOutlineSortDescending />
-                        ) : (
-                          <AiOutlineSortAscending />
-                        )}
-                      </span>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+        <div>
+          <table
+            className="w-full bg-white shadow-lg rounded-lg min-w-max"
+            {...getTableProps()}
+          >
+            <thead className="bg-gray-100">
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      className="px-2 md:px-4 py-2 text-left text-xs md:text-sm font-medium text-gray-600"
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
+                      {column.render("Header")}
+                      {column.isSorted && (
+                        <span>
+                          {column.isSortedDesc ? (
+                            <AiOutlineSortDescending className="inline ml-1" />
+                          ) : (
+                            <AiOutlineSortAscending className="inline ml-1" />
+                          )}
+                        </span>
+                      )}
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    className="border-b last:border-none hover:bg-gray-50 transition-colors"
+                    {...row.getRowProps()}
+                  >
+                    {row.cells.map((cell) => (
+                      <td
+                        className="px-2 md:px-4 py-2 text-xs md:text-sm text-gray-800"
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         {showPagination && (
-          <div className="table-pagination">
-            <button disabled={!canPreviousPage} onClick={previousPage}>
+          <div className="flex justify-between items-center mt-4">
+            <button
+              className={`px-3 py-1 rounded ${
+                !canPreviousPage ? "bg-gray-300" : "bg-blue-500"
+              } text-white`}
+              onClick={previousPage}
+              disabled={!canPreviousPage}
+            >
               Prev
             </button>
-            <span>{`${pageIndex + 1} of ${pageCount}`}</span>
-            <button disabled={!canNextPage} onClick={nextPage}>
+            <span>
+              {pageIndex + 1} of {pageCount}
+            </span>
+            <button
+              className={`px-3 py-1 rounded ${
+                !canNextPage ? "bg-gray-300" : "bg-blue-500"
+              } text-white`}
+              onClick={nextPage}
+              disabled={!canNextPage}
+            >
               Next
             </button>
           </div>

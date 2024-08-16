@@ -76,8 +76,8 @@ const Search = () => {
 
   return (
     <div className="product-search-page flex flex-col lg:flex-row gap-4 px-4 lg:px-20 py-10 mb-10">
-      <aside className="w-full lg:w-1/4 p-4 bg-gray-100 rounded-lg">
-        <div className="space-y-4">
+      <aside className="w-full lg:w-1/4 p-6 bg-gray-100 rounded-lg">
+        <div className="space-y-4 text-[#1B5A7D]">
           <h2 className="text-xl lg:text-2xl font-semibold mb-4">Filters</h2>
           <div>
             <h4 className="font-medium mb-2">Sort</h4>
@@ -99,7 +99,7 @@ const Search = () => {
               max={500000}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full focus:outline-none"
             />
           </div>
           <div>
@@ -107,7 +107,7 @@ const Search = () => {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B5A7D]"
             >
               <option value="">ALL</option>
               {!loadingCategories &&
