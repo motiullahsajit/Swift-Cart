@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://swift-cart-api.vercel.app",
 };
 
 app.use(cors(corsOptions));
